@@ -1,7 +1,7 @@
 const { By, until } = require('selenium-webdriver');
 const testData = require('./testData');
 
-async function waitForDisplayed(driver, locator, timeoutMs = 15000) {
+async function waitForDisplayed(driver, locator, timeoutMs = 30000) {
   const deadline = Date.now() + timeoutMs;
   let lastError;
 

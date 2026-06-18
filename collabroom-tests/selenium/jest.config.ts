@@ -7,5 +7,6 @@ module.exports = {
   reporters: [
     'default',
     './helpers/ExcelReporter.js'
-  ]
+  ],
+  setupFilesAfterEnv: ['./jest.setup.ts']
 };

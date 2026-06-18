@@ -164,7 +164,7 @@ export default function Login() {
                   <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     Password
                   </label>
-                  <Link to="/forgot-password" style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none', transition: 'color 0.15s' }}
+                  <Link to="/forgot-password" data-testid="forgot-password-link" style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none', transition: 'color 0.15s' }}
                     onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
                     onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
                   >
@@ -175,6 +175,7 @@ export default function Login() {
                   <Lock size={15} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'rgba(255,255,255,0.25)' }} />
                   <input
                     id="login-password"
+                    data-testid="password-input"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     value={form.password}
@@ -201,6 +202,7 @@ export default function Login() {
 
               <motion.button
                 id="login-submit"
+                data-testid="login-submit"
                 type="submit"
                 whileHover={{ scale: 1.02, boxShadow: '0 4px 20px rgba(255,255,255,0.15)' }}
                 whileTap={{ scale: 0.97 }}
@@ -222,7 +224,7 @@ export default function Login() {
 
             <p style={{ textAlign: 'center', marginTop: 28, fontSize: '0.85rem', color: '#888' }}>
               Don't have an account?{' '}
-              <Link to="/register" style={{ color: '#fff', fontWeight: 600, textDecoration: 'none' }}>
+              <Link to="/register" data-testid="register-link" style={{ color: '#fff', fontWeight: 600, textDecoration: 'none' }}>
                 Sign up free
               </Link>
             </p>

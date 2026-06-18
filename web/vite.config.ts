@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: 3000,
+      port: 8081,
       proxy: { '/__openai': openaiProxy },
     },
     preview: {

@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
-  BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
+  BASE_URL: process.env.BASE_URL || 'http://localhost:8081',
   CREATOR_EMAIL: process.env.CREATOR_EMAIL || 'collabroomoperations+creator@gmail.com',
   CREATOR_PASSWORD: process.env.CREATOR_PASSWORD || 'Project2027#',
   BRAND_EMAIL: process.env.BRAND_EMAIL || 'collabroomoperations+brand@gmail.com',

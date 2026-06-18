@@ -33,11 +33,11 @@ async function login(driver, email, password) {
   await emailInput.clear();
   await emailInput.sendKeys(email);
 
-  const passwordInput = await driver.findElement(By.css('#login-password'));
+  const passwordInput = await waitForDisplayed(driver, By.css('[data-testid="password-input"]'));
   await passwordInput.clear();
   await passwordInput.sendKeys(password);
 
-  await driver.findElement(By.css('#login-submit')).click();
+  await driver.findElement(By.css('[data-testid="login-submit"]')).click();
   await driver.wait(until.urlContains('dashboard'), 30000);
 }
 

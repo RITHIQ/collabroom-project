@@ -99,6 +99,7 @@ export default function AdminLogin() {
                 <Mail size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
                 <input
                   id="admin-email"
+                  data-testid="email-input"
                   className="input"
                   type="email"
                   placeholder="admin@colabroom.app"
@@ -117,6 +118,7 @@ export default function AdminLogin() {
                 <Lock size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
                 <input
                   id="admin-password"
+                  data-testid="password-input"
                   className="input"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
@@ -138,6 +140,7 @@ export default function AdminLogin() {
 
             <button
               type="submit"
+              data-testid="login-submit"
               className="btn btn-primary mt-6 w-full justify-center gap-2 px-4 py-3 text-[0.95rem]"
               disabled={isLoading}
             >

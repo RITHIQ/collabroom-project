@@ -10,8 +10,7 @@ async function buildDriver() {
       '--headless=new',
       '--no-sandbox',
       '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--remote-debugging-port=9222'
+      '--disable-gpu'
     );
   }
 

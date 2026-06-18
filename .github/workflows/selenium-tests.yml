@@ -1,0 +1,47 @@
+name: Selenium Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies (web)
+      working-directory: ./web
+      run: npm install
+
+    - name: Start Vite dev server
+      working-directory: ./web
+      run: npm run dev &
+      env:
+        PORT: 8081
+
+    - name: Wait for dev server to be ready
+      run: npx wait-on http://localhost:8081
+
+    - name: Install dependencies (tests)
+      working-directory: ./collabroom-tests/selenium
+      run: npm install
+
+    - name: Run Selenium Tests
+      working-directory: ./collabroom-tests/selenium
+      run: npm test
+
+    - name: Upload Test Report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: selenium-report
+        path: ./collabroom-tests/reports/selenium-report.xlsx

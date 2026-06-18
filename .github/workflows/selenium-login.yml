@@ -133,8 +133,8 @@ jobs:
         working-directory: web
         run: npx vite preview --port 3000 &
 
-      - name: Wait for server to be ready
-        run: npx wait-on http://localhost:3000 --timeout 30000
+      - name: Wait for Vite server to start
+        run: npx --yes wait-on http://localhost:3000 --timeout 30000
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1

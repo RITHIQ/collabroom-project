@@ -1,3 +1,4 @@
+export {};
 const { buildDriver, By, until } = require('../helpers/driver.js');
 const { loginAsCreator, loginAsBrand } = require('../helpers/auth.js');
 const testData = require('../helpers/testData.js');

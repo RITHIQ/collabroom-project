@@ -25,6 +25,9 @@ jobs:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
 
+      - name: Install ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
       - name: Start web app
         run: |
           cd web
@@ -32,7 +35,7 @@ jobs:
           npm run build
           npm run preview -- --port 4173 &
           # Wait for Vite preview port to be ready
-          npx wait-on http://localhost:4173
+          npx --yes wait-on http://localhost:4173
 
       - name: Run DAST tests
         run: |

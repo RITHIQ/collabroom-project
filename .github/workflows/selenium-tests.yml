@@ -1,4 +1,4 @@
-name: Selenium Tests
+name: selinum-e2e test
 
 on:
   push:

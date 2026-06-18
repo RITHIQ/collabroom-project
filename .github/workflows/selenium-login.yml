@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
@@ -59,7 +59,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
           cache-dependency-path: collabroom-tests/selenium/package-lock.json
 
@@ -67,16 +67,17 @@ jobs:
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
-
-      - name: Install ChromeDriver
-        uses: nanasess/setup-chromedriver@v2
+          install-chromedriver: true
 
       - name: Install Selenium test dependencies
         working-directory: collabroom-tests/selenium
         run: npm ci
 
       - name: Wait for GitHub Pages deployment to propagate
-        run: sleep 30
+        run: |
+          echo "Waiting 60s for GitHub Pages to propagate..."
+          sleep 60
+          curl --retry 10 --retry-delay 5 --retry-connrefused -sSf https://rithiq.github.io/collabroom/ > /dev/null && echo "Site is live!" || echo "Site may still be warming up"
 
       - name: Run Selenium E2E Tests (against deployed site)
         working-directory: collabroom-tests/selenium
@@ -113,7 +114,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
@@ -140,9 +141,7 @@ jobs:
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: stable
-
-      - name: Install ChromeDriver
-        uses: nanasess/setup-chromedriver@v2
+          install-chromedriver: true
 
       - name: Install Selenium dependencies
         working-directory: collabroom-tests/selenium

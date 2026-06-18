@@ -1,23 +1,25 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const chromedriver = require('chromedriver');
 
 async function buildDriver() {
   const options = new chrome.Options();
   const headless = process.env.HEADLESS !== 'false';
 
   if (headless) {
-    options.addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage');
+    options.addArguments(
+      '--headless=new',
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--remote-debugging-port=9222'
+    );
   }
 
   options.addArguments('--window-size=1920,1080');
 
-  const service = new chrome.ServiceBuilder(chromedriver.path);
-
   const driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(options)
-    .setChromeService(service)
     .build();
 
   await driver.manage().setTimeouts({

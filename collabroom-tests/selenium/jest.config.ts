@@ -4,6 +4,8 @@ module.exports = {
   testEnvironment: 'node',
   testTimeout: 30000,
   testMatch: ['**/tests/**/*.test.ts'],
+  forceExit: true,
+  maxWorkers: 1,
   reporters: [
     'default',
     './helpers/ExcelReporter.js'

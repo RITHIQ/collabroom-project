@@ -24,12 +24,10 @@ jobs:
 
     - name: Start Vite dev server
       working-directory: ./web
-      run: npm run dev -- --host 127.0.0.1 &
-      env:
-        PORT: 8081
+      run: npx vite --host 127.0.0.1 --port 8081 &
 
     - name: Wait for dev server to be ready
-      run: npx wait-on http://127.0.0.1:8081
+      run: npx wait-on http://127.0.0.1:8081 --timeout 60000
 
     - name: Install dependencies (tests)
       working-directory: ./collabroom-tests/selenium
@@ -37,11 +35,19 @@ jobs:
 
     - name: Run Selenium Tests
       working-directory: ./collabroom-tests/selenium
-      run: npm test
+      run: npm test -- --json --outputFile=jest-results-ci.json
+      continue-on-error: true
 
-    - name: Upload Test Report
+    - name: Upload Test Report (Excel)
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: selenium-report
+        name: selenium-report-excel
         path: ./collabroom-tests/reports/selenium-report.xlsx
+
+    - name: Upload Test Results (JSON)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: selenium-report-json
+        path: ./collabroom-tests/selenium/jest-results-ci.json

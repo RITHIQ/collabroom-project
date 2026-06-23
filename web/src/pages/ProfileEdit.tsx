@@ -125,11 +125,8 @@ export default function ProfileEdit() {
             setNiches(c.niches || []);
             setAvailability(c.availability || 'available');
             setAvatarUrl(c.profile_photo || profile?.avatar_url || '');
-            setInstagramUrl(c.instagram_url || '');
-            setYoutubeUrl(c.youtube_url || '');
-            setTwitterUrl(c.twitter_url || '');
-            setLinkedinUrl(c.linkedin_url || '');
-            setTotalFollowers(c.total_followers ? String(c.total_followers) : '');
+            // social_links is a JSONB array: [{platform, url/handle, followers}]
+            parseSocialLinks(c.social_links);
           }
         } else if (isBrand) {
           const b = await userService.getMyBrandProfile(user.id);
@@ -140,10 +137,8 @@ export default function ProfileEdit() {
             setIndustry(b.industry || '');
             setCompanySize(b.company_size || '');
             setWebsite(b.website || '');
-            setLocation(b.location || '');
             setAvatarUrl(b.logo_url || profile?.avatar_url || '');
-            setInstagramUrl(b.instagram_url || '');
-            setLinkedinUrl(b.linkedin_url || '');
+            parseSocialLinks(b.social_links);
           }
         }
       } catch (err: unknown) {
@@ -155,6 +150,18 @@ export default function ProfileEdit() {
     void load();
   }, [user?.id, isCreator, isBrand]);
 
+  // Helper: parse social_links JSONB array
+  const parseSocialLinks = (links: {platform: string; url?: string; handle?: string; followers?: number}[] | null) => {
+    if (!links || !Array.isArray(links)) return;
+    links.forEach(l => {
+      const url = l.url || (l.handle ? `https://${l.platform}.com/${l.handle}` : '');
+      if (l.platform === 'instagram') setInstagramUrl(url);
+      else if (l.platform === 'youtube') setYoutubeUrl(url);
+      else if (l.platform === 'twitter' || l.platform === 'x') setTwitterUrl(url);
+      else if (l.platform === 'linkedin') setLinkedinUrl(url);
+    });
+  };
+
   // ── Photo upload ─────────────────────────────────────────────────────
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0] || !user?.id) return;
@@ -162,13 +169,24 @@ export default function ProfileEdit() {
     if (file.size > 5 * 1024 * 1024) { toast.error('Image must be under 5MB'); return; }
     setUploading(true);
     try {
+      // Try Supabase Storage first
       const ext  = file.name.split('.').pop();
       const path = `avatars/${user.id}.${ext}`;
-      const { error } = await supabase.storage.from('uploads').upload(path, file, { upsert: true });
-      if (error) { toast.error(error.message); return; }
-      const { data } = supabase.storage.from('uploads').getPublicUrl(path);
-      setAvatarUrl(data.publicUrl);
-      toast.success('Profile photo updated!');
+      const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true });
+      if (!error) {
+        const { data } = supabase.storage.from('avatars').getPublicUrl(path);
+        setAvatarUrl(data.publicUrl);
+        toast.success('Profile photo uploaded!');
+        return;
+      }
+      // Fallback: convert to base64 data URL and store in profile directly
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        setAvatarUrl(dataUrl);
+        toast.success('Profile photo set! Click Save to apply.');
+      };
+      reader.readAsDataURL(file);
     } finally {
       setUploading(false);
     }
@@ -177,41 +195,47 @@ export default function ProfileEdit() {
   // ── Save ─────────────────────────────────────────────────────────────
   const handleSave = async () => {
     if (!user?.id) return;
+    if (!displayName.trim() && !companyName.trim()) {
+      toast.error('Please enter your name'); return;
+    }
     setSaving(true);
     try {
+      // Always update base profile
       await userService.updateProfile(user.id, {
-        full_name: displayName,
+        full_name: displayName || companyName,
         avatar_url: avatarUrl || undefined,
       });
+
+      // Build social_links JSONB array from form fields
+      const socialLinks = [
+        instagramUrl && { platform: 'instagram', url: instagramUrl },
+        youtubeUrl   && { platform: 'youtube',   url: youtubeUrl },
+        twitterUrl   && { platform: 'twitter',   url: twitterUrl },
+        linkedinUrl  && { platform: 'linkedin',  url: linkedinUrl },
+      ].filter(Boolean);
 
       if (isCreator) {
         await userService.upsertCreatorProfile(user.id, {
           display_name: displayName,
-          username,
-          bio,
-          location,
-          tagline,
+          username: username || undefined,
+          bio: bio || undefined,
+          location: location || undefined,
+          tagline: tagline || undefined,
           niches,
           availability,
           profile_photo: avatarUrl || undefined,
-          instagram_url: instagramUrl || null,
-          youtube_url: youtubeUrl || null,
-          twitter_url: twitterUrl || null,
-          linkedin_url: linkedinUrl || null,
-          total_followers: totalFollowers ? Number(totalFollowers) : null,
+          social_links: socialLinks,
         });
       } else if (isBrand) {
         await userService.upsertBrandProfile(user.id, {
           company_name: companyName,
-          handle,
-          description: bio,
-          industry,
-          company_size: companySize,
-          website,
-          location,
+          handle: handle || undefined,
+          description: bio || undefined,
+          industry: industry || undefined,
+          company_size: companySize || undefined,
+          website: website || undefined,
           logo_url: avatarUrl || undefined,
-          instagram_url: instagramUrl || null,
-          linkedin_url: linkedinUrl || null,
+          social_links: socialLinks,
         });
       }
 

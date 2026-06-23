@@ -3,14 +3,13 @@
  * Premium profile editor — photo upload, headline, social links,
  * location, industry, niches, preferences. Saves to Supabase.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   Camera, Save, Loader, User, MapPin, Globe, Link2,
   Briefcase, Star, Zap, CheckCircle,
 } from 'lucide-react';
 import { useAppSelector } from '../store';
-import { userService } from '../services/userService';
 import { supabase } from '../services/supabaseClient';
 import toast from 'react-hot-toast';
 
@@ -71,6 +70,17 @@ const Field = ({
   </div>
 );
 
+// ── Helper: parse social_links JSONB ──────────────────────────────────
+function extractSocialLinks(links: unknown): Record<string, string> {
+  const result: Record<string, string> = {};
+  if (!links || !Array.isArray(links)) return result;
+  (links as { platform: string; url?: string; handle?: string }[]).forEach(l => {
+    const url = l.url || (l.handle ? `https://${l.platform}.com/${l.handle.replace('@', '')}` : '');
+    if (url) result[l.platform] = url;
+  });
+  return result;
+}
+
 export default function ProfileEdit() {
   const { user } = useAppSelector(s => s.auth);
   const isCreator = user?.role === 'creator';
@@ -97,7 +107,6 @@ export default function ProfileEdit() {
   const [youtubeUrl, setYoutubeUrl]     = useState('');
   const [twitterUrl, setTwitterUrl]     = useState('');
   const [linkedinUrl, setLinkedinUrl]   = useState('');
-  const [totalFollowers, setTotalFollowers] = useState('');
 
   // ── Brand ────────────────────────────────────────────────────────────
   const [companyName, setCompanyName] = useState('');
@@ -105,62 +114,82 @@ export default function ProfileEdit() {
   const [industry, setIndustry]       = useState('');
   const [companySize, setCompanySize] = useState('');
 
-  // ── Load ─────────────────────────────────────────────────────────────
-  useEffect(() => {
+  // ── Load from Supabase ────────────────────────────────────────────────
+  const loadProfile = useCallback(async () => {
     if (!user?.id) return;
-    const load = async () => {
-      try {
-        const profile = await userService.getMyProfile(user.id);
-        setDisplayName(profile?.full_name || '');
-        setAvatarUrl(profile?.avatar_url || '');
+    setLoading(true);
+    try {
+      // Load base profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-        if (isCreator) {
-          const c = await userService.getMyCreatorProfile(user.id);
-          if (c) {
-            setDisplayName(c.display_name || profile?.full_name || '');
-            setUsername(c.username || '');
-            setBio(c.bio || '');
-            setLocation(c.location || '');
-            setTagline(c.tagline || '');
-            setNiches(c.niches || []);
-            setAvailability(c.availability || 'available');
-            setAvatarUrl(c.profile_photo || profile?.avatar_url || '');
-            // social_links is a JSONB array: [{platform, url/handle, followers}]
-            parseSocialLinks(c.social_links);
-          }
-        } else if (isBrand) {
-          const b = await userService.getMyBrandProfile(user.id);
-          if (b) {
-            setCompanyName(b.company_name || '');
-            setHandle(b.handle || '');
-            setBio(b.description || '');
-            setIndustry(b.industry || '');
-            setCompanySize(b.company_size || '');
-            setWebsite(b.website || '');
-            setAvatarUrl(b.logo_url || profile?.avatar_url || '');
-            parseSocialLinks(b.social_links);
+      if (profile) {
+        setDisplayName(profile.full_name || '');
+        setAvatarUrl(profile.avatar_url || '');
+      }
+
+      if (isCreator) {
+        const { data: c } = await supabase
+          .from('creators')
+          .select('*')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (c) {
+          setDisplayName(c.display_name || profile?.full_name || '');
+          setUsername(c.username || '');
+          setBio(c.bio || '');
+          setLocation(c.location || '');
+          setTagline(c.tagline || '');
+          setNiches(Array.isArray(c.niches) ? c.niches : []);
+          setAvailability(c.availability || 'available');
+          if (c.profile_photo) setAvatarUrl(c.profile_photo);
+
+          const social = extractSocialLinks(c.social_links);
+          setInstagramUrl(social.instagram || '');
+          setYoutubeUrl(social.youtube || '');
+          setTwitterUrl(social.twitter || social.x || '');
+          setLinkedinUrl(social.linkedin || '');
+        }
+      } else if (isBrand) {
+        const { data: b } = await supabase
+          .from('brands')
+          .select('*')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (b) {
+          setCompanyName(b.company_name || '');
+          setDisplayName(b.company_name || profile?.full_name || '');
+          setHandle(b.handle || '');
+          setBio(b.description || '');
+          setIndustry(b.industry || '');
+          setCompanySize(b.company_size || '');
+          setWebsite(b.website || '');
+          if (b.logo_url) setAvatarUrl(b.logo_url);
+
+          // brand social_links — may not exist if schema_v3 not run yet, that's OK
+          if (b.social_links) {
+            const social = extractSocialLinks(b.social_links);
+            setInstagramUrl(social.instagram || '');
+            setLinkedinUrl(social.linkedin || '');
           }
         }
-      } catch (err: unknown) {
-        toast.error((err as Error).message);
-      } finally {
-        setLoading(false);
       }
-    };
-    void load();
+    } catch (err: unknown) {
+      console.error('ProfileEdit load error:', err);
+      toast.error('Could not load profile: ' + (err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   }, [user?.id, isCreator, isBrand]);
 
-  // Helper: parse social_links JSONB array
-  const parseSocialLinks = (links: {platform: string; url?: string; handle?: string; followers?: number}[] | null) => {
-    if (!links || !Array.isArray(links)) return;
-    links.forEach(l => {
-      const url = l.url || (l.handle ? `https://${l.platform}.com/${l.handle}` : '');
-      if (l.platform === 'instagram') setInstagramUrl(url);
-      else if (l.platform === 'youtube') setYoutubeUrl(url);
-      else if (l.platform === 'twitter' || l.platform === 'x') setTwitterUrl(url);
-      else if (l.platform === 'linkedin') setLinkedinUrl(url);
-    });
-  };
+  useEffect(() => {
+    void loadProfile();
+  }, [loadProfile]);
 
   // ── Photo upload ─────────────────────────────────────────────────────
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,22 +198,21 @@ export default function ProfileEdit() {
     if (file.size > 5 * 1024 * 1024) { toast.error('Image must be under 5MB'); return; }
     setUploading(true);
     try {
-      // Try Supabase Storage first
+      // Try 'avatars' bucket first
       const ext  = file.name.split('.').pop();
       const path = `avatars/${user.id}.${ext}`;
       const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true });
       if (!error) {
         const { data } = supabase.storage.from('avatars').getPublicUrl(path);
         setAvatarUrl(data.publicUrl);
-        toast.success('Profile photo uploaded!');
+        toast.success('Photo uploaded! Click Save Profile to apply.');
         return;
       }
-      // Fallback: convert to base64 data URL and store in profile directly
+      // Fallback: base64 stored directly in avatar_url column
       const reader = new FileReader();
       reader.onload = () => {
-        const dataUrl = reader.result as string;
-        setAvatarUrl(dataUrl);
-        toast.success('Profile photo set! Click Save to apply.');
+        setAvatarUrl(reader.result as string);
+        toast.success('Photo ready! Click Save Profile to apply.');
       };
       reader.readAsDataURL(file);
     } finally {
@@ -192,57 +220,85 @@ export default function ProfileEdit() {
     }
   };
 
-  // ── Save ─────────────────────────────────────────────────────────────
+  // ── Save to Supabase ──────────────────────────────────────────────────
   const handleSave = async () => {
     if (!user?.id) return;
-    if (!displayName.trim() && !companyName.trim()) {
-      toast.error('Please enter your name'); return;
-    }
+    const nameToSave = (displayName || companyName || '').trim();
+    if (!nameToSave) { toast.error('Please enter your name'); return; }
+
     setSaving(true);
     try {
-      // Always update base profile
-      await userService.updateProfile(user.id, {
-        full_name: displayName || companyName,
-        avatar_url: avatarUrl || undefined,
-      });
+      // 1. Upsert base profile (use upsert not update, in case row missing)
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert(
+          { user_id: user.id, full_name: nameToSave, avatar_url: avatarUrl || null, updated_at: new Date().toISOString() },
+          { onConflict: 'user_id' }
+        );
+      if (profileError) throw new Error('Profile save failed: ' + profileError.message);
 
-      // Build social_links JSONB array from form fields
+      // 2. Build social_links array (only non-empty entries)
       const socialLinks = [
-        instagramUrl && { platform: 'instagram', url: instagramUrl },
-        youtubeUrl   && { platform: 'youtube',   url: youtubeUrl },
-        twitterUrl   && { platform: 'twitter',   url: twitterUrl },
-        linkedinUrl  && { platform: 'linkedin',  url: linkedinUrl },
+        instagramUrl.trim() && { platform: 'instagram', url: instagramUrl.trim() },
+        youtubeUrl.trim()   && { platform: 'youtube',   url: youtubeUrl.trim() },
+        twitterUrl.trim()   && { platform: 'twitter',   url: twitterUrl.trim() },
+        linkedinUrl.trim()  && { platform: 'linkedin',  url: linkedinUrl.trim() },
       ].filter(Boolean);
 
+      // 3. Save role-specific profile
       if (isCreator) {
-        await userService.upsertCreatorProfile(user.id, {
-          display_name: displayName,
-          username: username || undefined,
-          bio: bio || undefined,
-          location: location || undefined,
-          tagline: tagline || undefined,
-          niches,
-          availability,
-          profile_photo: avatarUrl || undefined,
-          social_links: socialLinks,
-        });
+        const { error: creatorError } = await supabase
+          .from('creators')
+          .upsert(
+            {
+              user_id: user.id,
+              display_name: nameToSave,
+              username: username.trim() || null,
+              bio: bio.trim() || null,
+              location: location.trim() || null,
+              tagline: tagline.trim() || null,
+              niches,
+              availability,
+              profile_photo: avatarUrl || null,
+              social_links: socialLinks,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: 'user_id' }
+          );
+        if (creatorError) throw new Error('Creator profile save failed: ' + creatorError.message);
+
       } else if (isBrand) {
-        await userService.upsertBrandProfile(user.id, {
-          company_name: companyName,
-          handle: handle || undefined,
-          description: bio || undefined,
-          industry: industry || undefined,
-          company_size: companySize || undefined,
-          website: website || undefined,
-          logo_url: avatarUrl || undefined,
-          social_links: socialLinks,
-        });
+        // Try with social_links first; if that column doesn't exist (schema_v3 not run), retry without it
+        const brandData = {
+          user_id: user.id,
+          company_name: companyName.trim() || nameToSave,
+          handle: handle.trim() || null,
+          description: bio.trim() || null,
+          industry: industry || null,
+          company_size: companySize || null,
+          website: website.trim() || null,
+          logo_url: avatarUrl || null,
+          updated_at: new Date().toISOString(),
+        };
+
+        let { error: brandError } = await supabase
+          .from('brands')
+          .upsert({ ...brandData, social_links: socialLinks }, { onConflict: 'user_id' });
+
+        // If social_links column doesn't exist yet, save without it
+        if (brandError && brandError.message.includes('social_links')) {
+          const res = await supabase.from('brands').upsert(brandData, { onConflict: 'user_id' });
+          brandError = res.error;
+        }
+
+        if (brandError) throw new Error('Brand profile save failed: ' + brandError.message);
       }
 
       setSaved(true);
       toast.success('Profile saved successfully! 🎉');
       setTimeout(() => setSaved(false), 3000);
     } catch (err: unknown) {
+      console.error('ProfileEdit save error:', err);
       toast.error((err as Error).message);
     } finally {
       setSaving(false);
@@ -251,7 +307,7 @@ export default function ProfileEdit() {
 
   if (loading) return (
     <div style={{ padding: 32, maxWidth: 860, margin: '0 auto' }}>
-      <div className="skeleton" style={{ height: 40, width: 200, borderRadius: 8, marginBottom: 24 }} />
+      <div className="skeleton" style={{ height: 40, width: 220, borderRadius: 8, marginBottom: 24 }} />
       {[1, 2, 3, 4].map(i => (
         <div key={i} className="skeleton" style={{ height: 160, borderRadius: 14, marginBottom: 20 }} />
       ))}
@@ -305,7 +361,7 @@ export default function ProfileEdit() {
 
           {/* Name / Email info */}
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: 4 }}>{displayName || 'Your Name'}</div>
+            <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: 4 }}>{displayName || companyName || 'Your Name'}</div>
             <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 8 }}>{user?.email}</div>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -317,20 +373,22 @@ export default function ProfileEdit() {
               {user?.role} Account
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: 8 }}>
-              Click the photo to upload a new one (max 5MB)
+              Click the photo to upload (max 5MB)
             </div>
           </div>
         </div>
 
         <FormRow cols={2}>
-          <Field label="Display Name *">
-            <input className="input" value={displayName} onChange={e => setDisplayName(e.target.value)}
+          <Field label={isCreator ? 'Display Name *' : 'Company Name *'}>
+            <input className="input"
+              value={isCreator ? displayName : companyName}
+              onChange={e => isCreator ? setDisplayName(e.target.value) : setCompanyName(e.target.value)}
               placeholder={isCreator ? 'Your full name' : 'Company name'} />
           </Field>
           {isCreator && (
             <Field label="Username / Handle">
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)', fontWeight: 600, fontSize: '0.9rem' }}>@</span>
+                <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)', fontWeight: 600 }}>@</span>
                 <input className="input" value={username} onChange={e => setUsername(e.target.value)}
                   placeholder="yourhandle" style={{ paddingLeft: 28 }} />
               </div>
@@ -339,7 +397,7 @@ export default function ProfileEdit() {
           {isBrand && (
             <Field label="Brand Handle">
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)', fontWeight: 600, fontSize: '0.9rem' }}>@</span>
+                <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)', fontWeight: 600 }}>@</span>
                 <input className="input" value={handle} onChange={e => setHandle(e.target.value)}
                   placeholder="yourhandle" style={{ paddingLeft: 28 }} />
               </div>
@@ -360,8 +418,8 @@ export default function ProfileEdit() {
           <Field label={isCreator ? 'About You' : 'About Your Brand'} full>
             <textarea className="input" rows={4} value={bio} onChange={e => setBio(e.target.value)}
               placeholder={isCreator
-                ? 'Tell brands about your content, audience demographics, and what makes your collaborations unique…'
-                : 'Tell creators what your brand stands for, your target audience, and the type of content you value…'}
+                ? 'Tell brands about your content, audience demographics, and what makes you unique…'
+                : 'Tell creators what your brand stands for and the type of content you value…'}
               style={{ resize: 'vertical' }}
             />
           </Field>
@@ -420,13 +478,6 @@ export default function ProfileEdit() {
                 placeholder="https://linkedin.com/in/yourprofile" style={{ paddingLeft: 38 }} />
             </div>
           </Field>
-          {isCreator && (
-            <Field label="Total Followers / Reach">
-              <input className="input" type="number" value={totalFollowers}
-                onChange={e => setTotalFollowers(e.target.value)}
-                placeholder="e.g. 450000 (combined across all platforms)" />
-            </Field>
-          )}
         </div>
       </Section>
 
@@ -450,9 +501,9 @@ export default function ProfileEdit() {
           <Field label="Collaboration Availability">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
-                { value: 'available', label: 'Open to Collaborations', desc: 'Actively looking for brand deals', color: '#10B981' },
-                { value: 'selective', label: 'Selective', desc: "Only for the right fit — DM to discuss", color: '#F59E0B' },
-                { value: 'unavailable', label: 'Not Available', desc: 'Currently not taking new projects', color: '#EF4444' },
+                { value: 'available',   label: 'Open to Collaborations',  desc: 'Actively looking for brand deals',          color: '#10B981' },
+                { value: 'selective',   label: 'Selective',               desc: 'Only for the right fit — DM to discuss',    color: '#F59E0B' },
+                { value: 'unavailable', label: 'Not Available',           desc: 'Currently not taking new projects',          color: '#EF4444' },
               ].map(opt => (
                 <button type="button" key={opt.value}
                   onClick={() => setAvailability(opt.value)}
@@ -504,7 +555,7 @@ export default function ProfileEdit() {
           className="btn btn-primary"
           onClick={handleSave}
           disabled={saving || uploading}
-          style={{ padding: '12px 32px', fontSize: '0.95rem', minWidth: 160 }}
+          style={{ padding: '12px 32px', fontSize: '0.95rem', minWidth: 180 }}
         >
           {saving
             ? <><Loader size={15} style={{ animation: 'spin 1s linear infinite' }} /> Saving…</>
@@ -514,7 +565,7 @@ export default function ProfileEdit() {
           }
         </button>
         <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-          Changes are saved to your public profile instantly.
+          All changes are saved directly to your Supabase account.
         </span>
       </div>
     </div>

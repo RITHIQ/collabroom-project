@@ -1,7 +1,0 @@
-{
-  "baseUrl": "https://YOUR-PROJECT.supabase.co",
-  "anonKey": "YOUR-ANON-KEY",
-  "creatorToken": "CREATOR-BEARER-TOKEN",
-  "brandToken": "BRAND-BEARER-TOKEN",
-  "adminToken": "ADMIN-BEARER-TOKEN"
-}

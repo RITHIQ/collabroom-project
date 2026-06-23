@@ -180,9 +180,27 @@ def pytest_sessionfinish(session, exitstatus):
     print(f"Excel report generated at: {xlsx_path}")
     
     # --- CSV report ---
+    csv_summary_rows = [
+        ["CollabRoom Security Vulnerability Test Suite Summary"],
+        ["Report Generation Date:", datetime.now().strftime("%m/%d/%Y, %I:%M:%S %p")],
+        ["Target Environment:", target_env],
+        ["OS Platform:", platform.system().lower()],
+        [],
+        ["E2E Execution Metrics", "Value", "Status Highlight"],
+        ["Total Test Cases", total, "100% Represented"],
+        ["Passed Test Cases", passed, "ALL PASSED" if passed == total else "PASSED"],
+        ["Failed Test Cases", failed, "NO FAILURES" if failed == 0 else "FAILURES FOUND"],
+        ["Skipped Test Cases", skipped, "CLEAN RUN"],
+        ["Overall Success Rate", f"{success_rate}%", "PERFECT PASS" if success_rate == 100 else "NEEDS ATTENTION"],
+        ["Total Run Duration", f"{duration_secs} seconds", ""],
+        [],
+        []
+    ]
+
     csv_headers = ["S.No.", "Test ID", "Test Suite", "Test Scenario Name", "Expected Status", "Execution Status", "Duration (ms)", "Classification", "Error / Reason"]
     with open(csv_path, mode="w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
+        writer.writerows(csv_summary_rows)
         writer.writerow(csv_headers)
         for idx, r in enumerate(results):
             writer.writerow([

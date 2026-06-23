@@ -178,6 +178,23 @@ class ExcelReporter {
     console.log(`Excel report generated at: ${xlsxPath}`);
 
     // --- CSV report ---
+    const csvSummaryRows = [
+      ['CollabRoom E2E Test Suite Summary'],
+      ['Report Generation Date:', new Date().toLocaleString()],
+      ['Target Environment:', process.env.BASE_URL || 'http://localhost:8081'],
+      ['OS Platform:', os.platform()],
+      [],
+      ['E2E Execution Metrics', 'Value', 'Status Highlight'],
+      ['Total Test Cases', total, '100% Represented'],
+      ['Passed Test Cases', passed, passed === total ? 'ALL PASSED' : 'PASSED'],
+      ['Failed Test Cases', failed, failed === 0 ? 'NO FAILURES' : 'FAILURES FOUND'],
+      ['Skipped Test Cases', skipped, 'CLEAN RUN'],
+      ['Overall Success Rate', `${successRate}%`, successRate == 100 ? 'PERFECT PASS' : 'NEEDS ATTENTION'],
+      ['Total Run Duration', `${durationSecs} seconds`, ''],
+      [],
+      []
+    ];
+
     const csvHeaders = [
       'S.No.', 'Test ID', 'Test Suite', 'Test Scenario Name',
       'Expected Status', 'Execution Status', 'Duration (ms)', 'Classification', 'Error / Reason'
@@ -192,6 +209,7 @@ class ExcelReporter {
     };
 
     const csvRows = [
+      ...csvSummaryRows.map(row => row.map(escapeCSV).join(',')),
       csvHeaders.join(','),
       ...this.results.map((r, i) =>
         [

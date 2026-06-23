@@ -6,8 +6,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Camera, Save, Loader, User, MapPin, Globe, Instagram,
-  Youtube, Twitter, Linkedin, Briefcase, Star, Zap, CheckCircle,
+  Camera, Save, Loader, User, MapPin, Globe, Link2,
+  Briefcase, Star, Zap, CheckCircle,
 } from 'lucide-react';
 import { useAppSelector } from '../store';
 import { userService } from '../services/userService';
@@ -368,21 +368,21 @@ export default function ProfileEdit() {
             <>
               <Field label="Instagram">
                 <div style={{ position: 'relative' }}>
-                  <Instagram size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#E1306C' }} />
+                  <Link2 size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#E1306C' }} />
                   <input className="input" value={instagramUrl} onChange={e => setInstagramUrl(e.target.value)}
                     placeholder="https://instagram.com/yourprofile" style={{ paddingLeft: 38 }} />
                 </div>
               </Field>
               <Field label="YouTube">
                 <div style={{ position: 'relative' }}>
-                  <Youtube size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#FF0000' }} />
+                  <Link2 size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#FF0000' }} />
                   <input className="input" value={youtubeUrl} onChange={e => setYoutubeUrl(e.target.value)}
                     placeholder="https://youtube.com/@yourchannel" style={{ paddingLeft: 38 }} />
                 </div>
               </Field>
               <Field label="X / Twitter">
                 <div style={{ position: 'relative' }}>
-                  <Twitter size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)' }} />
+                  <Link2 size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)' }} />
                   <input className="input" value={twitterUrl} onChange={e => setTwitterUrl(e.target.value)}
                     placeholder="https://twitter.com/yourhandle" style={{ paddingLeft: 38 }} />
                 </div>
@@ -391,7 +391,7 @@ export default function ProfileEdit() {
           )}
           <Field label="LinkedIn">
             <div style={{ position: 'relative' }}>
-              <Linkedin size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#0A66C2' }} />
+              <Link2 size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#0A66C2' }} />
               <input className="input" value={linkedinUrl} onChange={e => setLinkedinUrl(e.target.value)}
                 placeholder="https://linkedin.com/in/yourprofile" style={{ paddingLeft: 38 }} />
             </div>

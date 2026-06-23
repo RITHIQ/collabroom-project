@@ -1,0 +1,80 @@
+name: "⚡ Load Tests — CollabRoom Web & Mobile"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  k6-web-load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start Mock Server
+        run: |
+          npm install -g json-server
+          json-server --watch load-tests/mock-server/db.json --port 3001 &
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6=0.50.0
+
+      - name: Run Web Load Tests
+        run: |
+          k6 run load-tests/web/smoke-test.js
+          k6 run load-tests/web/load-test.js
+          k6 run load-tests/web/stress-test.js
+          k6 run load-tests/web/spike-test.js
+          k6 run load-tests/web/soak-test.js
+          k6 run load-tests/web/scenarios/auth.js
+          k6 run load-tests/web/scenarios/campaigns.js
+          k6 run load-tests/web/scenarios/contracts.js
+
+      - name: Upload Web Load Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-web-load-results
+          path: web-load-results.json
+
+  k6-mobile-load:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start Mock Server
+        run: |
+          npm install -g json-server
+          json-server --watch load-tests/mock-server/db.json --port 3002 &
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6=0.50.0
+
+      - name: Run Mobile Load Tests
+        run: |
+          k6 run load-tests/mobile/smoke-test.js
+          k6 run load-tests/mobile/load-test.js
+          k6 run load-tests/mobile/stress-test.js
+          k6 run load-tests/mobile/spike-test.js
+          k6 run load-tests/mobile/soak-test.js
+          k6 run load-tests/mobile/scenarios/auth.js
+          k6 run load-tests/mobile/scenarios/sync.js
+          k6 run load-tests/mobile/scenarios/notifications.js
+
+      - name: Upload Mobile Load Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-mobile-load-results
+          path: mobile-load-results.json

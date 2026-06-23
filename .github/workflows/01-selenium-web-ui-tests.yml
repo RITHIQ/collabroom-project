@@ -1,0 +1,42 @@
+# c:\Users\then9\Downloads\PROJECT PDD\.github\workflows\01-selenium-web-ui-tests.yml
+name: "🌐 Selenium Web UI Tests — CollabRoom"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  selenium-web-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd selenium-tests
+          npm ci
+
+      - name: Install chromedriver matching installed Chrome version
+        run: |
+          cd selenium-tests
+          npm install chromedriver --detect_chromedriver_version
+
+      - name: Run tests
+        run: |
+          cd selenium-tests
+          npx jest --verbose --testPathPattern=selenium-tests
+        env:
+          CHROME_FLAGS: "--headless --no-sandbox --disable-dev-shm-usage"
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-web-ui-results
+          path: selenium-tests/selenium-results.xml

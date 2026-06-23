@@ -1,0 +1,13 @@
+{
+  "name": "jest-mobile-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "jest": "29.7.0",
+    "@testing-library/react-native": "12.4.1",
+    "react": "18.2.0",
+    "react-native": "0.72.6"
+  }
+}

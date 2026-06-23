@@ -1,0 +1,14 @@
+{
+  "name": "selenium-tests",
+  "version": "1.0.0",
+  "description": "Selenium Web UI Tests for CollabRoom",
+  "scripts": {
+    "test": "jest --verbose --testPathPattern=selenium-tests"
+  },
+  "dependencies": {
+    "chromedriver": "131.0.1",
+    "jest": "29.7.0",
+    "jest-junit": "16.0.0",
+    "selenium-webdriver": "4.27.0"
+  }
+}

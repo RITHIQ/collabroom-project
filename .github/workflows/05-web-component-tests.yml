@@ -1,0 +1,18 @@
+name: "⚛️ Vitest Web Component Tests — CollabRoom"
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  vitest-web-components:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '18' }
+      - run: cd vitest-web-tests && npm ci
+      - run: cd vitest-web-tests && npm test
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: vitest-web-results, path: vitest-web-tests/ }

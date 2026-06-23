@@ -2,7 +2,7 @@
   "name": "collabroom-appium-tests",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest --runInBand --forceExit --json --outputFile=jest-results.json"
+    "test": "jest --runInBand --forceExit --reporters=default --reporters=./helpers/ExcelReporter.js"
   },
   "dependencies": {
     "webdriverio": "^8.36.0",

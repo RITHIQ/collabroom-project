@@ -19,15 +19,35 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: appium-tests
+        working-directory: collabroom-tests/appium
 
       - name: Run Mobile E2E tests
         run: npm test
-        working-directory: appium-tests
+        working-directory: collabroom-tests/appium
 
-      - name: Upload test results
+      - name: Upload Excel report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: appium-mobile-results
-          path: appium-tests/
+          name: appium-report-xlsx
+          path: collabroom-tests/reports/appium-report.xlsx
+          retention-days: 30
+
+      - name: Upload CSV report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-report-csv
+          path: collabroom-tests/reports/appium-report.csv
+          retention-days: 30
+
+      - name: Print CSV summary to workflow log
+        if: always()
+        run: |
+          echo "========== APPIUM TEST RESULTS =========="
+          if [ -f collabroom-tests/reports/appium-report.csv ]; then
+            cat collabroom-tests/reports/appium-report.csv
+          else
+            echo "CSV report not found."
+          fi
+          echo "========================================="

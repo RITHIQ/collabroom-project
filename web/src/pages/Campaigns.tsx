@@ -290,13 +290,14 @@ export default function Campaigns() {
               onClick={() => setApplyModal(null)}
               style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 200, backdropFilter: 'blur(2px)' }}
             />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              className="card"
-              style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 'min(520px, 94vw)', padding: 28, zIndex: 201 }}
-            >
+            <div style={{ position: 'fixed', inset: 0, zIndex: 201, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                className="card"
+                style={{ width: 'min(520px, 94vw)', padding: 28, pointerEvents: 'auto' }}
+              >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
                 <h3 style={{ fontWeight: 800, margin: 0 }}>Apply to Campaign</h3>
                 <button onClick={() => setApplyModal(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', padding: 4, borderRadius: 6 }}>
@@ -332,7 +333,8 @@ export default function Campaigns() {
                 </button>
                 <button className="btn btn-secondary" onClick={() => setApplyModal(null)}>Cancel</button>
               </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </>
         )}
       </AnimatePresence>

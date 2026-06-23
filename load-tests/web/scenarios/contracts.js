@@ -11,7 +11,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get('http://localhost:3001/test');
+  const res = http.get('http://localhost:3001/users');
   check(res, {
     'List contracts returns array': (r) => r.status === 200,
   });

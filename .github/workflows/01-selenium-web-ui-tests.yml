@@ -20,14 +20,12 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: selenium-tests
 
       - name: Run Selenium tests
-        run: npx jest --verbose
+        run: npm test
         working-directory: selenium-tests
-        env:
-          SELENIUM_HEADLESS: "true"
 
       - name: Upload test results
         if: always()

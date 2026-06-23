@@ -10,7 +10,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get('http://localhost:3001/test');
+  const res = http.get('http://localhost:3001/users');
   check(res, {
     'Load Web Check 0': (r) => r.status === 200,
   });

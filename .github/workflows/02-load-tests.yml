@@ -23,17 +23,16 @@ jobs:
         run: npm install -g json-server@0.17.4
 
       - name: Start mock server on port 3001
-        run: json-server --watch load-tests/mock-server/db.json --port 3001 &
-        
-      - name: Wait for mock server to be ready
-        run: sleep 3
+        run: |
+          nohup json-server --watch load-tests/mock-server/db.json --port 3001 &
+          sleep 5
+          curl -s http://localhost:3001/users | head -c 100
 
       - name: Install k6
         run: |
-          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install -y k6
+          curl https://github.com/grafana/k6/releases/download/v0.50.0/k6-v0.50.0-linux-amd64.tar.gz -L | tar xvz
+          sudo mv k6-v0.50.0-linux-amd64/k6 /usr/local/bin/
+          k6 version
 
       - name: Run smoke test
         run: k6 run --out json=web-load-results.json load-tests/web/smoke-test.js
@@ -81,17 +80,16 @@ jobs:
         run: npm install -g json-server@0.17.4
 
       - name: Start mock server on port 3002
-        run: json-server --watch load-tests/mock-server/db.json --port 3002 &
-
-      - name: Wait for mock server to be ready
-        run: sleep 3
+        run: |
+          nohup json-server --watch load-tests/mock-server/db.json --port 3002 &
+          sleep 5
+          curl -s http://localhost:3002/users | head -c 100
 
       - name: Install k6
         run: |
-          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install -y k6
+          curl https://github.com/grafana/k6/releases/download/v0.50.0/k6-v0.50.0-linux-amd64.tar.gz -L | tar xvz
+          sudo mv k6-v0.50.0-linux-amd64/k6 /usr/local/bin/
+          k6 version
 
       - name: Run smoke test
         run: k6 run --out json=mobile-load-results.json load-tests/mobile/smoke-test.js

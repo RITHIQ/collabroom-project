@@ -10,7 +10,7 @@ export const options = {
 };
 
 export default function () {
-  const res = http.get('http://localhost:3002/test');
+  const res = http.get('http://localhost:3002/users');
   check(res, {
     'Register device token returns 200': (r) => r.status === 200,
   });

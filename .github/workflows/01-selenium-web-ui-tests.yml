@@ -48,10 +48,10 @@ jobs:
         env:
           BASE_URL: ${{ vars.SELENIUM_BASE_URL || 'http://localhost:8081' }}
           HEADLESS: "true"
-          CREATOR_EMAIL: ${{ secrets.CREATOR_EMAIL }}
-          CREATOR_PASSWORD: ${{ secrets.CREATOR_PASSWORD }}
-          BRAND_EMAIL: ${{ secrets.BRAND_EMAIL }}
-          BRAND_PASSWORD: ${{ secrets.BRAND_PASSWORD }}
+          CREATOR_EMAIL: "collabroomoperations+creator@gmail.com"
+          CREATOR_PASSWORD: "Project2027#"
+          BRAND_EMAIL: "collabroomoperations+brand@gmail.com"
+          BRAND_PASSWORD: "Project2027#"
         run: npx jest --forceExit --verbose 2>&1
         working-directory: collabroom-tests/selenium
 

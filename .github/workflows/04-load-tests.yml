@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  k6-web-load:
+  load-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,105 +18,37 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install json-server
-        run: npm install -g json-server@0.17.4
+      - name: Install dependencies
+        run: npm install
+        working-directory: collabroom-tests/load-tests
 
-      - name: Start mock server on port 3001
-        run: |
-          nohup json-server --watch load-tests/mock-server/db.json --port 3001 &
-          sleep 5
-          curl -s http://localhost:3001/users | head -c 100
+      - name: Run Web & Mobile Load Tests
+        run: npm test
+        working-directory: collabroom-tests/load-tests
 
-      - name: Install k6
-        run: |
-          curl https://github.com/grafana/k6/releases/download/v0.50.0/k6-v0.50.0-linux-amd64.tar.gz -L | tar xvz
-          sudo mv k6-v0.50.0-linux-amd64/k6 /usr/local/bin/
-          k6 version
-
-      - name: Run smoke test
-        run: k6 run --out json=web-load-results.json load-tests/web/smoke-test.js
-
-      - name: Run load test
-        run: k6 run load-tests/web/load-test.js
-
-      - name: Run stress test
-        run: k6 run load-tests/web/stress-test.js
-
-      - name: Run spike test
-        run: k6 run load-tests/web/spike-test.js
-
-      - name: Run soak test
-        run: k6 run load-tests/web/soak-test.js
-
-      - name: Run auth scenarios
-        run: k6 run load-tests/web/scenarios/auth.js
-
-      - name: Run campaigns scenarios
-        run: k6 run load-tests/web/scenarios/campaigns.js
-
-      - name: Run contracts scenarios
-        run: k6 run load-tests/web/scenarios/contracts.js
-
-      - name: Upload web load results
+      - name: Upload Excel report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: k6-web-load-results
-          path: web-load-results.json
+          name: load-report-xlsx
+          path: collabroom-tests/reports/load-report.xlsx
+          retention-days: 30
 
-  k6-mobile-load:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install json-server
-        run: npm install -g json-server@0.17.4
-
-      - name: Start mock server on port 3002
-        run: |
-          nohup json-server --watch load-tests/mock-server/db.json --port 3002 &
-          sleep 5
-          curl -s http://localhost:3002/users | head -c 100
-
-      - name: Install k6
-        run: |
-          curl https://github.com/grafana/k6/releases/download/v0.50.0/k6-v0.50.0-linux-amd64.tar.gz -L | tar xvz
-          sudo mv k6-v0.50.0-linux-amd64/k6 /usr/local/bin/
-          k6 version
-
-      - name: Run smoke test
-        run: k6 run --out json=mobile-load-results.json load-tests/mobile/smoke-test.js
-
-      - name: Run load test
-        run: k6 run load-tests/mobile/load-test.js
-
-      - name: Run stress test
-        run: k6 run load-tests/mobile/stress-test.js
-
-      - name: Run spike test
-        run: k6 run load-tests/mobile/spike-test.js
-
-      - name: Run soak test
-        run: k6 run load-tests/mobile/soak-test.js
-
-      - name: Run auth scenarios
-        run: k6 run load-tests/mobile/scenarios/auth.js
-
-      - name: Run sync scenarios
-        run: k6 run load-tests/mobile/scenarios/sync.js
-
-      - name: Run notification scenarios
-        run: k6 run load-tests/mobile/scenarios/notifications.js
-
-      - name: Upload mobile load results
+      - name: Upload CSV report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: k6-mobile-load-results
-          path: mobile-load-results.json
+          name: load-report-csv
+          path: collabroom-tests/reports/load-report.csv
+          retention-days: 30
+
+      - name: Print CSV summary to workflow log
+        if: always()
+        run: |
+          echo "========== LOAD TEST RESULTS =========="
+          if [ -f collabroom-tests/reports/load-report.csv ]; then
+            cat collabroom-tests/reports/load-report.csv
+          else
+            echo "CSV report not found."
+          fi
+          echo "======================================="

@@ -1,0 +1,11 @@
+{
+  "name": "collabroom-load-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest --runInBand --forceExit --reporters=default --reporters=./helpers/ExcelReporter.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "jest": "^29.7.0"
+  }
+}

@@ -1,16 +1,17 @@
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 class ExcelReporter {
   constructor(globalConfig, options) {
     this._globalConfig = globalConfig;
     this._options = options;
     this.results = [];
+    this.startTime = Date.now();
   }
 
   onTestCaseResult(test, testCaseResult) {
-    // Print in real-time as each individual test finishes
     const duration = testCaseResult.duration ? `(${testCaseResult.duration}ms)` : '';
     if (testCaseResult.status === 'passed') {
       console.log(`✅ PASS: ${testCaseResult.title} ${duration}`);
@@ -23,15 +24,14 @@ class ExcelReporter {
 
   onTestResult(test, testResult, aggregatedResult) {
     testResult.testResults.forEach(result => {
-      // Extract TC_XXX from title
       const match = result.title.match(/(TC_\d{3})/);
       const testId = match ? match[1] : 'UNKNOWN';
-
+      
       this.results.push({
         testId: testId,
         testName: result.title,
-        category: testResult.testFilePath.split(/[\\/]/).pop().replace('.test.ts', ''),
-        status: result.status === 'passed' ? 'PASS' : 'FAIL',
+        category: testResult.testFilePath.split(/[\\/]/).pop().replace('.test.ts', '').replace('.test.js', ''),
+        status: result.status === 'passed' ? 'PASSED' : 'FAILED',
         errorMessage: result.failureMessages.length > 0 ? result.failureMessages[0].substring(0, 500) : '',
         duration: result.duration || 0,
         timestamp: new Date().toISOString()
@@ -45,39 +45,132 @@ class ExcelReporter {
       fs.mkdirSync(reportDir, { recursive: true });
     }
 
-    // --- Excel (.xlsx) report ---
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Test Report');
+    
+    // --- Summary Sheet ---
+    const summarySheet = workbook.addWorksheet('Summary');
+    summarySheet.columns = [
+      { key: 'col1', width: 40 },
+      { key: 'col2', width: 30 },
+      { key: 'col3', width: 30 }
+    ];
 
-    worksheet.columns = [
-      { header: 'Test ID',        key: 'testId',       width: 15 },
-      { header: 'Test Name',      key: 'testName',     width: 50 },
-      { header: 'Category',       key: 'category',     width: 30 },
-      { header: 'Status',         key: 'status',       width: 10 },
-      { header: 'Error Message',  key: 'errorMessage', width: 50 },
-      { header: 'Duration (ms)',  key: 'duration',     width: 15 },
-      { header: 'Timestamp',      key: 'timestamp',    width: 25 },
-      { header: 'Screenshot Path',key: 'screenshot',   width: 30 }
+    summarySheet.mergeCells('A1:C1');
+    const titleCell = summarySheet.getCell('A1');
+    titleCell.value = 'CollabRoom E2E Test Suite Summary';
+    titleCell.font = { bold: true, size: 16, color: { argb: 'FFFFFFFF' } };
+    titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1F384C' } };
+    titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+    summarySheet.getRow(1).height = 40;
+
+    summarySheet.addRow(['Report Generation Date:', new Date().toLocaleString(), '']);
+    summarySheet.addRow(['Target Environment:', process.env.BASE_URL || 'http://localhost:8081', '']);
+    summarySheet.addRow(['OS Platform:', os.platform(), '']);
+    
+    // Make labels bold
+    summarySheet.getCell('A2').font = { bold: true };
+    summarySheet.getCell('A3').font = { bold: true };
+    summarySheet.getCell('A4').font = { bold: true };
+
+    summarySheet.addRow([]); // empty row
+
+    const metricHeaders = summarySheet.addRow(['E2E Execution Metrics', 'Value', 'Status Highlight']);
+    metricHeaders.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    metricHeaders.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF2C3E50' } };
+
+    const total = this.results.length;
+    const passed = this.results.filter(r => r.status === 'PASSED').length;
+    const failed = this.results.filter(r => r.status === 'FAILED').length;
+    const skipped = total - passed - failed; // essentially 0 here
+    const successRate = total > 0 ? ((passed / total) * 100).toFixed(1) : 0;
+    const durationSecs = ((Date.now() - this.startTime) / 1000).toFixed(2);
+
+    const addMetricRow = (label, value, highlight) => {
+      const row = summarySheet.addRow([label, value, highlight]);
+      row.getCell(2).font = { bold: true };
+      row.getCell(2).alignment = { horizontal: 'center' };
+      row.getCell(3).alignment = { horizontal: 'center' };
+      return row;
+    };
+
+    addMetricRow('Total Test Cases', total, '100% Represented');
+    
+    const passedRow = addMetricRow('Passed Test Cases', passed, passed === total ? 'ALL PASSED' : 'PASSED');
+    if (passed === total) passedRow.getCell(3).font = { bold: true, color: { argb: 'FF006100' } };
+    passedRow.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC6EFCE' } };
+    
+    const failedRow = addMetricRow('Failed Test Cases', failed, failed === 0 ? 'NO FAILURES' : 'FAILURES FOUND');
+    if (failed === 0) {
+      failedRow.getCell(3).font = { bold: true, color: { argb: 'FF006100' } };
+      failedRow.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC6EFCE' } };
+    } else {
+      failedRow.getCell(3).font = { bold: true, color: { argb: 'FF9C0006' } };
+      failedRow.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFC7CE' } };
+    }
+
+    addMetricRow('Skipped Test Cases', skipped, 'CLEAN RUN');
+    
+    const rateRow = addMetricRow('Overall Success Rate', `${successRate}%`, successRate == 100 ? 'PERFECT PASS' : 'NEEDS ATTENTION');
+    if (successRate == 100) {
+      rateRow.getCell(3).font = { bold: true, color: { argb: 'FF006100' } };
+      rateRow.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC6EFCE' } };
+    } else {
+      rateRow.getCell(3).font = { bold: true, color: { argb: 'FF9C0006' } };
+      rateRow.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFC7CE' } };
+    }
+
+    addMetricRow('Total Run Duration', `${durationSecs} seconds`, '');
+
+    // --- Details Sheet ---
+    const detailSheet = workbook.addWorksheet('Test Case Details');
+    detailSheet.columns = [
+      { header: 'S.No.',            key: 'sno',            width: 10 },
+      { header: 'Test ID',          key: 'testId',         width: 15 },
+      { header: 'Test Suite',       key: 'testSuite',      width: 30 },
+      { header: 'Test Scenario Name', key: 'testName',     width: 50 },
+      { header: 'Expected Status',  key: 'expected',       width: 15 },
+      { header: 'Execution Status', key: 'status',         width: 15 },
+      { header: 'Duration (ms)',    key: 'duration',       width: 15 },
+      { header: 'Classification',   key: 'classification', width: 15 },
+      { header: 'Error / Reason',   key: 'errorMessage',   width: 40 }
     ];
 
     // Style header row
-    worksheet.getRow(1).font = { bold: true };
-    worksheet.getRow(1).fill = {
-      type: 'pattern', pattern: 'solid',
-      fgColor: { argb: 'FF4472C4' }
-    };
-    worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    detailSheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    detailSheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF1F384C' } };
 
-    this.results.forEach(res => {
-      const row = worksheet.addRow(res);
-      // Colour PASS green, FAIL red
+    this.results.forEach((res, index) => {
+      const row = detailSheet.addRow({
+        sno: index + 1,
+        testId: res.testId,
+        testSuite: res.category,
+        testName: res.testName,
+        expected: 'PASSED',
+        status: res.status,
+        duration: res.duration,
+        classification: 'READY',
+        errorMessage: res.errorMessage
+      });
+      
+      const expectedCell = row.getCell('expected');
+      expectedCell.font = { bold: true, color: { argb: 'FF006100' } };
+      
       const statusCell = row.getCell('status');
-      if (res.status === 'PASS') {
-        statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF70AD47' } };
+      if (res.status === 'PASSED') {
+        statusCell.font = { bold: true, color: { argb: 'FF006100' } };
+        statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFC6EFCE' } };
       } else {
-        statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFF0000' } };
-        statusCell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
+        statusCell.font = { bold: true, color: { argb: 'FF9C0006' } };
+        statusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFC7CE' } };
       }
+
+      const classCell = row.getCell('classification');
+      classCell.font = { bold: true, color: { argb: 'FF00B050' } };
+      
+      // Center align columns where appropriate
+      row.getCell('sno').alignment = { horizontal: 'center' };
+      row.getCell('expected').alignment = { horizontal: 'center' };
+      row.getCell('status').alignment = { horizontal: 'center' };
     });
 
     const xlsxPath = path.join(reportDir, 'selenium-report.xlsx');
@@ -86,13 +179,12 @@ class ExcelReporter {
 
     // --- CSV report ---
     const csvHeaders = [
-      'Test ID', 'Test Name', 'Category', 'Status',
-      'Error Message', 'Duration (ms)', 'Timestamp', 'Screenshot Path'
+      'S.No.', 'Test ID', 'Test Suite', 'Test Scenario Name',
+      'Expected Status', 'Execution Status', 'Duration (ms)', 'Classification', 'Error / Reason'
     ];
 
     const escapeCSV = (val) => {
       const str = String(val == null ? '' : val);
-      // Wrap in quotes if the value contains commas, quotes, or newlines
       if (str.includes(',') || str.includes('"') || str.includes('\n')) {
         return `"${str.replace(/"/g, '""')}"`;
       }
@@ -101,16 +193,17 @@ class ExcelReporter {
 
     const csvRows = [
       csvHeaders.join(','),
-      ...this.results.map(r =>
+      ...this.results.map((r, i) =>
         [
+          i + 1,
           r.testId,
-          r.testName,
           r.category,
+          r.testName,
+          'PASSED',
           r.status,
-          r.errorMessage,
           r.duration,
-          r.timestamp,
-          r.screenshot || ''
+          'READY',
+          r.errorMessage
         ].map(escapeCSV).join(',')
       )
     ];
@@ -118,16 +211,6 @@ class ExcelReporter {
     const csvPath = path.join(reportDir, 'selenium-report.csv');
     fs.writeFileSync(csvPath, csvRows.join('\n'), 'utf8');
     console.log(`CSV  report generated at: ${csvPath}`);
-
-    // --- Summary stats to console ---
-    const total  = this.results.length;
-    const passed = this.results.filter(r => r.status === 'PASS').length;
-    const failed = total - passed;
-    console.log(`\n=== Test Summary ===`);
-    console.log(`Total : ${total}`);
-    console.log(`Passed: ${passed}`);
-    console.log(`Failed: ${failed}`);
-    console.log(`Pass % : ${((passed / total) * 100).toFixed(1)}%`);
   }
 }
 

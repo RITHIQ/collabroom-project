@@ -43,12 +43,9 @@ def pytest_sessionfinish(session, exitstatus):
     report_dir = os.path.join(os.path.dirname(__file__), "..", "collabroom-tests", "reports")
     os.makedirs(report_dir, exist_ok=True)
     
-    # Determine if we are running web or mobile tests
-    prefix = "security-web"
-    target_env = "Web Application Security"
-    if "mobile" in str(session.config.args):
-        prefix = "security-mobile"
-        target_env = "Mobile Application Security"
+    # Generate a single combined report for both Web and Mobile
+    prefix = "security"
+    target_env = "Web & Mobile Application Security"
         
     csv_path = os.path.join(report_dir, f"{prefix}-report.csv")
     xlsx_path = os.path.join(report_dir, f"{prefix}-report.xlsx")

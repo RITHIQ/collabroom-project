@@ -10,6 +10,7 @@ on:
 jobs:
   selenium-web-ui:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,17 +20,53 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install Google Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | \
+            sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update -y
+          sudo apt-get install -y google-chrome-stable
+          google-chrome --version
+
       - name: Install dependencies
         run: npm ci
-        working-directory: selenium-tests
+        working-directory: collabroom-tests/selenium
 
-      - name: Run Selenium tests
-        run: npm test
-        working-directory: selenium-tests
+      - name: Run Selenium tests (headless)
+        env:
+          BASE_URL: ${{ vars.SELENIUM_BASE_URL || 'http://localhost:8081' }}
+          HEADLESS: "true"
+          CREATOR_EMAIL: ${{ secrets.CREATOR_EMAIL }}
+          CREATOR_PASSWORD: ${{ secrets.CREATOR_PASSWORD }}
+          BRAND_EMAIL: ${{ secrets.BRAND_EMAIL }}
+          BRAND_PASSWORD: ${{ secrets.BRAND_PASSWORD }}
+        run: npx jest --forceExit --verbose 2>&1
+        working-directory: collabroom-tests/selenium
 
-      - name: Upload test results
+      - name: Upload Excel report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: selenium-web-ui-results
-          path: selenium-tests/selenium-results.xml
+          name: selenium-report-xlsx
+          path: collabroom-tests/reports/selenium-report.xlsx
+          retention-days: 30
+
+      - name: Upload CSV report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-report-csv
+          path: collabroom-tests/reports/selenium-report.csv
+          retention-days: 30
+
+      - name: Print CSV summary to workflow log
+        if: always()
+        run: |
+          echo "========== SELENIUM TEST RESULTS =========="
+          if [ -f collabroom-tests/reports/selenium-report.csv ]; then
+            cat collabroom-tests/reports/selenium-report.csv
+          else
+            echo "CSV report not found — tests may have failed to run."
+          fi
+          echo "==========================================="

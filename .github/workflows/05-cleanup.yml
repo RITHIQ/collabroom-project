@@ -1,0 +1,58 @@
+name: "Wipe Old History"
+run-name: "Wiping all old workflow history..."
+
+on:
+  push:
+    branches: [ "main" ]
+
+# Explicitly grant permissions to delete actions
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  delete-runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old workflow runs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            console.log("Fetching all workflow runs...");
+            const runs = await github.paginate(github.rest.actions.listWorkflowRunsForRepo, {
+              owner,
+              repo,
+              per_page: 100
+            });
+            
+            console.log(`Found ${runs.length} total runs.`);
+            
+            let deletedCount = 0;
+            
+            for (const run of runs) {
+              // Keep only the most recent runs of the actual tests
+              // Specifically, we will DELETE EVERYTHING except the 4 currently running / latest ones.
+              // Wait, simpler: Delete everything that has a run_number less than the current run number minus 5.
+              // Or delete if older than 5 minutes! Since we want to wipe the 158 old runs.
+              const runDate = new Date(run.created_at);
+              const fiveMinsAgo = new Date(Date.now() - 5 * 60 * 1000);
+              
+              if (runDate < fiveMinsAgo) {
+                try {
+                  await github.rest.actions.deleteWorkflowRun({
+                    owner,
+                    repo,
+                    run_id: run.id
+                  });
+                  deletedCount++;
+                  console.log(`Deleted run ID: ${run.id}`);
+                } catch (error) {
+                  console.log(`Failed to delete run ${run.id}: ${error.message}`);
+                }
+              }
+            }
+            
+            console.log(`Successfully deleted ${deletedCount} old runs!`);

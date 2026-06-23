@@ -1,1 +1,6 @@
-module.exports = { preset: 'react-native' };
+// jest-mobile-tests/jest.config.js
+module.exports = {
+  testEnvironment: 'node',
+  testMatch: ['**/__tests__/**/*.test.js'],
+  verbose: true
+};

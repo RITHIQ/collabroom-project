@@ -1,3 +1,4 @@
+# .github/workflows/04-appium-mobile-e2e.yml
 name: "Appium Mobile E2E Tests - CollabRoom"
 on:
   push:
@@ -8,11 +9,25 @@ jobs:
   appium-mobile-e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '18' }
-      - run: cd appium-tests && npm ci
-      - run: cd appium-tests && npm test
-      - if: always()
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: appium-tests
+
+      - name: Run Mobile E2E tests
+        run: npm test
+        working-directory: appium-tests
+
+      - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
-        with: { name: appium-mobile-results, path: appium-tests/ }
+        with:
+          name: appium-mobile-results
+          path: appium-tests/

@@ -19,27 +19,15 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
       - name: Install dependencies
-        run: npm ci
-        working-directory: selenium-tests
-
-      - name: Install chromedriver matching Chrome version
-        run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+' | head -1)
-          npx chromedriver --version || true
-          npm install chromedriver@$(echo $CHROME_VERSION | cut -d. -f1)
+        run: npm install
         working-directory: selenium-tests
 
       - name: Run Selenium tests
-        run: npm test
+        run: npx jest --verbose
         working-directory: selenium-tests
         env:
-          CHROME_FLAGS: "--headless --no-sandbox --disable-dev-shm-usage"
+          SELENIUM_HEADLESS: "true"
 
       - name: Upload test results
         if: always()

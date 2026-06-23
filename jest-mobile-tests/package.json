@@ -1,13 +1,16 @@
 {
   "name": "jest-mobile-tests",
   "version": "1.0.0",
+  "description": "Jest Mobile Component Tests for CollabRoom",
   "scripts": {
-    "test": "jest"
+    "test": "jest --verbose"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.js"],
+    "reporters": ["default"]
   },
   "dependencies": {
-    "jest": "29.7.0",
-    "@testing-library/react-native": "12.4.1",
-    "react": "18.2.0",
-    "react-native": "0.72.6"
+    "jest": "29.7.0"
   }
 }

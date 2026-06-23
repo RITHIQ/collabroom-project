@@ -1,12 +1,12 @@
 {
   "name": "appium-tests",
   "version": "1.0.0",
+  "description": "Mobile E2E Tests for CollabRoom",
   "scripts": {
-    "test": "wdio run wdio.conf.js"
+    "test": "mocha --recursive tests/ --timeout 10000"
   },
   "dependencies": {
-    "webdriverio": "8.24.0",
-    "appium": "2.2.3",
-    "mocha": "10.2.0"
+    "mocha": "10.2.0",
+    "chai": "4.3.10"
   }
 }

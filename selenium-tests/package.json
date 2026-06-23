@@ -3,7 +3,18 @@
   "version": "1.0.0",
   "description": "Selenium Web UI Tests for CollabRoom",
   "scripts": {
-    "test": "jest --verbose --testPathPattern=selenium-tests"
+    "test": "jest --verbose"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 30000,
+    "reporters": [
+      "default",
+      ["jest-junit", {
+        "outputDirectory": ".",
+        "outputName": "selenium-results.xml"
+      }]
+    ]
   },
   "dependencies": {
     "chromedriver": "131.0.1",

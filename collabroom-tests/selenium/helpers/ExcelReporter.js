@@ -9,6 +9,18 @@ class ExcelReporter {
     this.results = [];
   }
 
+  onTestCaseResult(test, testCaseResult) {
+    // Print in real-time as each individual test finishes
+    const duration = testCaseResult.duration ? `(${testCaseResult.duration}ms)` : '';
+    if (testCaseResult.status === 'passed') {
+      console.log(`✅ PASS: ${testCaseResult.title} ${duration}`);
+    } else if (testCaseResult.status === 'failed') {
+      console.log(`❌ FAIL: ${testCaseResult.title} ${duration}`);
+    } else {
+      console.log(`➖ ${testCaseResult.status.toUpperCase()}: ${testCaseResult.title}`);
+    }
+  }
+
   onTestResult(test, testResult, aggregatedResult) {
     testResult.testResults.forEach(result => {
       // Extract TC_XXX from title

@@ -8,6 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store';
 import { logoutUser } from '../../store/slices/authSlice';
 import { notificationService } from '../../services/notificationService';
+import { useProfile } from '../../context/ProfileContext';
 
 interface NotifItem {
   id: string;
@@ -70,6 +71,7 @@ export default function Navbar() {
   };
 
   const initials = (user?.email ?? 'U').slice(0, 1).toUpperCase();
+  const { avatarUrl } = useProfile();
 
   const navbarStyle: React.CSSProperties = {
     background: scrolled ? 'rgba(0,0,0,0.92)' : 'rgba(10,10,10,0.5)',
@@ -308,8 +310,11 @@ export default function Navbar() {
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.2)'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.08)'; (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
                 >
-                  <div className="avatar" style={{ width: 24, height: 24, fontSize: '0.68rem' }}>
-                    {initials}
+                  <div className="avatar" style={{ width: 24, height: 24, fontSize: '0.68rem', overflow: 'hidden', padding: avatarUrl ? 0 : undefined }}>
+                    {avatarUrl
+                      ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                      : initials
+                    }
                   </div>
                   <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'rgba(255,255,255,0.7)', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {user?.email?.split('@')[0]}

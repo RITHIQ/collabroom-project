@@ -12,6 +12,7 @@ import {
 import { useAppSelector } from '../store';
 import { supabase } from '../services/supabaseClient';
 import toast from 'react-hot-toast';
+import { useProfile } from '../context/ProfileContext';
 
 const nicheOptions = [
   'Beauty', 'Tech', 'Fitness', 'Food', 'Travel', 'Gaming',
@@ -85,6 +86,7 @@ export default function ProfileEdit() {
   const { user } = useAppSelector(s => s.auth);
   const isCreator = user?.role === 'creator';
   const isBrand   = user?.role === 'brand';
+  const { refreshProfile } = useProfile();
 
   const [saving, setSaving]   = useState(false);
   const [loading, setLoading] = useState(true);
@@ -296,6 +298,8 @@ export default function ProfileEdit() {
 
       setSaved(true);
       toast.success('Profile saved successfully! 🎉');
+      // Instantly refresh the avatar/name everywhere in the app
+      void refreshProfile();
       setTimeout(() => setSaved(false), 3000);
     } catch (err: unknown) {
       console.error('ProfileEdit save error:', err);

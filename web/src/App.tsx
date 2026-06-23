@@ -49,6 +49,7 @@ import AdminDisputes from './pages/admin/AdminDisputes';
 import AdminAnnouncements from './pages/admin/AdminAnnouncements';
 
 import SupportAssistant from './components/SupportAssistant';
+import { ProfileProvider } from './context/ProfileContext';
 
 function AppInit({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
@@ -99,6 +100,7 @@ export default function App() {
     <Provider store={store}>
       <HashRouter>
         <AppInit>
+          <ProfileProvider>
           <Toaster
             position="top-right"
             toastOptions={{
@@ -176,6 +178,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <SupportAssistant />
+          </ProfileProvider>
         </AppInit>
       </HashRouter>
     </Provider>

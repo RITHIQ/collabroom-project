@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { logoutUser } from '../../store/slices/authSlice';
+import { useProfile } from '../../context/ProfileContext';
 
 interface NavItem {
   icon: React.ReactNode;
@@ -55,6 +56,7 @@ export default function Sidebar() {
   const roleLabel = user?.role === 'brand' ? 'Brand' : 'Creator';
   const initials = (user?.email ?? 'U').slice(0, 1).toUpperCase();
   const emailDisplay = user?.email ?? '';
+  const { avatarUrl, displayName } = useProfile();
 
   return (
     <aside data-testid="sidebar" className="sidebar desktop-only" style={{ width: 'var(--sidebar-width)' }}>
@@ -150,12 +152,15 @@ export default function Sidebar() {
           marginTop: 8,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, padding: '0 2px' }}>
-            <div className="avatar" style={{ width: 30, height: 30, fontSize: '0.75rem', flexShrink: 0 }}>
-              {initials}
+            <div className="avatar" style={{ width: 30, height: 30, fontSize: '0.75rem', flexShrink: 0, overflow: 'hidden', padding: avatarUrl ? 0 : undefined }}>
+              {avatarUrl
+                ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                : initials
+              }
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ffffff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {emailDisplay.split('@')[0]}
+                {displayName || emailDisplay.split('@')[0]}
               </div>
               <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', marginTop: 1 }}>
                 {roleLabel}

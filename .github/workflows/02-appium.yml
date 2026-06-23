@@ -1,0 +1,54 @@
+name: "Appium Mobile E2E Tests"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  appium-mobile-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: collabroom-tests/appium
+
+      - name: Run Mobile E2E tests
+        run: npm test
+        working-directory: collabroom-tests/appium
+
+      - name: Upload Excel report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-report-xlsx
+          path: collabroom-tests/reports/appium-report.xlsx
+          retention-days: 30
+
+      - name: Upload CSV report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-report-csv
+          path: collabroom-tests/reports/appium-report.csv
+          retention-days: 30
+
+      - name: Print CSV summary to workflow log
+        if: always()
+        run: |
+          echo "========== APPIUM TEST RESULTS =========="
+          if [ -f collabroom-tests/reports/appium-report.csv ]; then
+            cat collabroom-tests/reports/appium-report.csv
+          else
+            echo "CSV report not found."
+          fi
+          echo "========================================="

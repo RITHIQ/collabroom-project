@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="302" failures="0" errors="0" time="4.164">
+  <testsuite name="profile - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.101" tests="25">
+    <testcase classname="profile - CollabRoom UI Tests Profile page renders for own user" name="profile - CollabRoom UI Tests Profile page renders for own user" time="0.024">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Avatar image displays correctly" name="profile - CollabRoom UI Tests Avatar image displays correctly" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Display name renders on profile" name="profile - CollabRoom UI Tests Display name renders on profile" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Bio text renders on profile" name="profile - CollabRoom UI Tests Bio text renders on profile" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Category tags render on profile" name="profile - CollabRoom UI Tests Category tags render on profile" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit profile button renders for own profile" name="profile - CollabRoom UI Tests Edit profile button renders for own profile" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit profile button is hidden on other users profile" name="profile - CollabRoom UI Tests Edit profile button is hidden on other users profile" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit form opens on edit button click" name="profile - CollabRoom UI Tests Edit form opens on edit button click" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit name field shows current value" name="profile - CollabRoom UI Tests Edit name field shows current value" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit bio field shows current value" name="profile - CollabRoom UI Tests Edit bio field shows current value" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit category multi-select renders" name="profile - CollabRoom UI Tests Edit category multi-select renders" time="0.003">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Edit social links fields render" name="profile - CollabRoom UI Tests Edit social links fields render" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Avatar upload button renders in edit mode" name="profile - CollabRoom UI Tests Avatar upload button renders in edit mode" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests File input opens on avatar button click mock" name="profile - CollabRoom UI Tests File input opens on avatar button click mock" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Avatar preview updates after file selection mock" name="profile - CollabRoom UI Tests Avatar preview updates after file selection mock" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Save button shows loading state on click mock" name="profile - CollabRoom UI Tests Save button shows loading state on click mock" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Save success toast displays after save mock" name="profile - CollabRoom UI Tests Save success toast displays after save mock" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Cancel button closes form without saving" name="profile - CollabRoom UI Tests Cancel button closes form without saving" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Form values reset to original on cancel" name="profile - CollabRoom UI Tests Form values reset to original on cancel" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Creator profile shows portfolio section" name="profile - CollabRoom UI Tests Creator profile shows portfolio section" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Creator profile shows completed campaigns count" name="profile - CollabRoom UI Tests Creator profile shows completed campaigns count" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Brand profile shows company details section" name="profile - CollabRoom UI Tests Brand profile shows company details section" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Brand profile shows active campaigns count" name="profile - CollabRoom UI Tests Brand profile shows active campaigns count" time="0.001">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Profile page shows member since date" name="profile - CollabRoom UI Tests Profile page shows member since date" time="0">
+    </testcase>
+    <testcase classname="profile - CollabRoom UI Tests Profile page title updates to show user display name" name="profile - CollabRoom UI Tests Profile page title updates to show user display name" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ai-brief - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.106" tests="20">
+    <testcase classname="ai-brief - CollabRoom UI Tests AI Brief page renders correctly" name="ai-brief - CollabRoom UI Tests AI Brief page renders correctly" time="0.023">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Prompt textarea input renders" name="ai-brief - CollabRoom UI Tests Prompt textarea input renders" time="0.002">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Prompt textarea accepts typed text" name="ai-brief - CollabRoom UI Tests Prompt textarea accepts typed text" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Character counter shows current count" name="ai-brief - CollabRoom UI Tests Character counter shows current count" time="0.002">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Character limit warning appears near maximum" name="ai-brief - CollabRoom UI Tests Character limit warning appears near maximum" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Character limit blocks further input at maximum" name="ai-brief - CollabRoom UI Tests Character limit blocks further input at maximum" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Template selector dropdown renders" name="ai-brief - CollabRoom UI Tests Template selector dropdown renders" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Selecting template populates prompt textarea" name="ai-brief - CollabRoom UI Tests Selecting template populates prompt textarea" time="0">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Generate button is disabled when prompt is empty" name="ai-brief - CollabRoom UI Tests Generate button is disabled when prompt is empty" time="0">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Generate button is enabled when prompt has content" name="ai-brief - CollabRoom UI Tests Generate button is enabled when prompt has content" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Generate button shows loading spinner on click mock" name="ai-brief - CollabRoom UI Tests Generate button shows loading spinner on click mock" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Generated brief content displays in result area mock" name="ai-brief - CollabRoom UI Tests Generated brief content displays in result area mock" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Result area shows formatted sections mock" name="ai-brief - CollabRoom UI Tests Result area shows formatted sections mock" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Copy to clipboard button renders in result area" name="ai-brief - CollabRoom UI Tests Copy to clipboard button renders in result area" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Copy button writes content to clipboard mock" name="ai-brief - CollabRoom UI Tests Copy button writes content to clipboard mock" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Copy success toast notification shows mock" name="ai-brief - CollabRoom UI Tests Copy success toast notification shows mock" time="0">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Regenerate button renders after first generation" name="ai-brief - CollabRoom UI Tests Regenerate button renders after first generation" time="0">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Regenerate clears previous result and generates again mock" name="ai-brief - CollabRoom UI Tests Regenerate clears previous result and generates again mock" time="0.001">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Clear button resets both prompt and result area" name="ai-brief - CollabRoom UI Tests Clear button resets both prompt and result area" time="0">
+    </testcase>
+    <testcase classname="ai-brief - CollabRoom UI Tests Error message displays when generation fails mock" name="ai-brief - CollabRoom UI Tests Error message displays when generation fails mock" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="messages - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.102" tests="30">
+    <testcase classname="messages - CollabRoom UI Tests Messages inbox page renders" name="messages - CollabRoom UI Tests Messages inbox page renders" time="0.024">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Thread list renders with multiple threads" name="messages - CollabRoom UI Tests Thread list renders with multiple threads" time="0.002">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Thread item shows sender name" name="messages - CollabRoom UI Tests Thread item shows sender name" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Thread item shows message preview text" name="messages - CollabRoom UI Tests Thread item shows message preview text" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Thread item shows timestamp" name="messages - CollabRoom UI Tests Thread item shows timestamp" time="0.002">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Unread thread renders with bold text styling" name="messages - CollabRoom UI Tests Unread thread renders with bold text styling" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Unread count badge renders on inbox nav icon" name="messages - CollabRoom UI Tests Unread count badge renders on inbox nav icon" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Clicking thread opens message view mock" name="messages - CollabRoom UI Tests Clicking thread opens message view mock" time="0.002">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Message view renders conversation history mock" name="messages - CollabRoom UI Tests Message view renders conversation history mock" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Sent messages align to right side" name="messages - CollabRoom UI Tests Sent messages align to right side" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Received messages align to left side" name="messages - CollabRoom UI Tests Received messages align to left side" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Message timestamps display correctly" name="messages - CollabRoom UI Tests Message timestamps display correctly" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Message input field renders at bottom of view" name="messages - CollabRoom UI Tests Message input field renders at bottom of view" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Message input accepts typed text" name="messages - CollabRoom UI Tests Message input accepts typed text" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Send button is disabled when input is empty" name="messages - CollabRoom UI Tests Send button is disabled when input is empty" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Send button enables when input has content" name="messages - CollabRoom UI Tests Send button enables when input has content" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Send button click submits message mock" name="messages - CollabRoom UI Tests Send button click submits message mock" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Sent message appears in thread immediately mock" name="messages - CollabRoom UI Tests Sent message appears in thread immediately mock" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Image attachment button renders" name="messages - CollabRoom UI Tests Image attachment button renders" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Attachment click opens image picker mock" name="messages - CollabRoom UI Tests Attachment click opens image picker mock" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Selected image preview shows before sending mock" name="messages - CollabRoom UI Tests Selected image preview shows before sending mock" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Image message renders as thumbnail in thread mock" name="messages - CollabRoom UI Tests Image message renders as thumbnail in thread mock" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Mark all read button renders in inbox header" name="messages - CollabRoom UI Tests Mark all read button renders in inbox header" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Mark all read clears all unread badges mock" name="messages - CollabRoom UI Tests Mark all read clears all unread badges mock" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Message search input renders" name="messages - CollabRoom UI Tests Message search input renders" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Search filters thread list by sender name mock" name="messages - CollabRoom UI Tests Search filters thread list by sender name mock" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Empty inbox renders correct empty state" name="messages - CollabRoom UI Tests Empty inbox renders correct empty state" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Notification bell icon renders in app header" name="messages - CollabRoom UI Tests Notification bell icon renders in app header" time="0.001">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Notification dropdown opens on bell click" name="messages - CollabRoom UI Tests Notification dropdown opens on bell click" time="0">
+    </testcase>
+    <testcase classname="messages - CollabRoom UI Tests Notification list renders recent items mock" name="messages - CollabRoom UI Tests Notification list renders recent items mock" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="wallet - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.109" tests="30">
+    <testcase classname="wallet - CollabRoom UI Tests Wallet page renders correctly" name="wallet - CollabRoom UI Tests Wallet page renders correctly" time="0.028">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Balance card renders with amount" name="wallet - CollabRoom UI Tests Balance card renders with amount" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Available balance amount displays with currency format" name="wallet - CollabRoom UI Tests Available balance amount displays with currency format" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Pending balance amount displays separately" name="wallet - CollabRoom UI Tests Pending balance amount displays separately" time="0.002">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction history list renders" name="wallet - CollabRoom UI Tests Transaction history list renders" time="0.002">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction row shows amount" name="wallet - CollabRoom UI Tests Transaction row shows amount" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction row shows date" name="wallet - CollabRoom UI Tests Transaction row shows date" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction row shows transaction type" name="wallet - CollabRoom UI Tests Transaction row shows transaction type" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Incoming transaction amount shows in green" name="wallet - CollabRoom UI Tests Incoming transaction amount shows in green" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Outgoing transaction amount shows in red" name="wallet - CollabRoom UI Tests Outgoing transaction amount shows in red" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Filter transactions by INCOME type mock" name="wallet - CollabRoom UI Tests Filter transactions by INCOME type mock" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Filter transactions by PAYOUT type mock" name="wallet - CollabRoom UI Tests Filter transactions by PAYOUT type mock" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Filter transactions by date range mock" name="wallet - CollabRoom UI Tests Filter transactions by date range mock" time="0">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Empty transaction state renders correctly" name="wallet - CollabRoom UI Tests Empty transaction state renders correctly" time="0">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction list pagination renders" name="wallet - CollabRoom UI Tests Transaction list pagination renders" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Next page of transactions loads mock" name="wallet - CollabRoom UI Tests Next page of transactions loads mock" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Request payout button renders" name="wallet - CollabRoom UI Tests Request payout button renders" time="0.002">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout modal opens on button click" name="wallet - CollabRoom UI Tests Payout modal opens on button click" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout amount input field renders" name="wallet - CollabRoom UI Tests Payout amount input field renders" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout amount below minimum shows validation error" name="wallet - CollabRoom UI Tests Payout amount below minimum shows validation error" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout amount above balance shows validation error" name="wallet - CollabRoom UI Tests Payout amount above balance shows validation error" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout bank account selector renders options mock" name="wallet - CollabRoom UI Tests Payout bank account selector renders options mock" time="0">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Confirm payout shows loading state on click mock" name="wallet - CollabRoom UI Tests Confirm payout shows loading state on click mock" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout success message renders mock" name="wallet - CollabRoom UI Tests Payout success message renders mock" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Payout failure error message renders mock" name="wallet - CollabRoom UI Tests Payout failure error message renders mock" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction row expands to show detail on click" name="wallet - CollabRoom UI Tests Transaction row expands to show detail on click" time="0">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Transaction detail shows reference ID" name="wallet - CollabRoom UI Tests Transaction detail shows reference ID" time="0">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Monthly earnings chart renders" name="wallet - CollabRoom UI Tests Monthly earnings chart renders" time="0.001">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Total lifetime earned stat displays" name="wallet - CollabRoom UI Tests Total lifetime earned stat displays" time="0">
+    </testcase>
+    <testcase classname="wallet - CollabRoom UI Tests Total paid out stat displays" name="wallet - CollabRoom UI Tests Total paid out stat displays" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="contracts - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.115" tests="30">
+    <testcase classname="contracts - CollabRoom UI Tests Contracts list page renders" name="contracts - CollabRoom UI Tests Contracts list page renders" time="0.027">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract rows display in table" name="contracts - CollabRoom UI Tests Contract rows display in table" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract row shows contract title" name="contracts - CollabRoom UI Tests Contract row shows contract title" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract row shows parties involved" name="contracts - CollabRoom UI Tests Contract row shows parties involved" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract row shows current status badge" name="contracts - CollabRoom UI Tests Contract row shows current status badge" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Filter by PENDING status shows correct contracts mock" name="contracts - CollabRoom UI Tests Filter by PENDING status shows correct contracts mock" time="0.002">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Filter by SIGNED status shows correct contracts mock" name="contracts - CollabRoom UI Tests Filter by SIGNED status shows correct contracts mock" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Filter by EXPIRED status shows correct contracts mock" name="contracts - CollabRoom UI Tests Filter by EXPIRED status shows correct contracts mock" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract row click navigates to contract detail mock" name="contracts - CollabRoom UI Tests Contract row click navigates to contract detail mock" time="0.002">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract detail page renders" name="contracts - CollabRoom UI Tests Contract detail page renders" time="0.002">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract detail shows full terms content" name="contracts - CollabRoom UI Tests Contract detail shows full terms content" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract detail shows parties section" name="contracts - CollabRoom UI Tests Contract detail shows parties section" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract value displays correctly" name="contracts - CollabRoom UI Tests Contract value displays correctly" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract duration displays correctly" name="contracts - CollabRoom UI Tests Contract duration displays correctly" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Scroll progress bar renders on long contract" name="contracts - CollabRoom UI Tests Scroll progress bar renders on long contract" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Sign button is disabled when user has not scrolled to bottom" name="contracts - CollabRoom UI Tests Sign button is disabled when user has not scrolled to bottom" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Sign button enables after user scrolls to bottom mock" name="contracts - CollabRoom UI Tests Sign button enables after user scrolls to bottom mock" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Sign button click opens signature modal" name="contracts - CollabRoom UI Tests Sign button click opens signature modal" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Signature modal renders with drawing pad area" name="contracts - CollabRoom UI Tests Signature modal renders with drawing pad area" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Clear button clears signature pad mock" name="contracts - CollabRoom UI Tests Clear button clears signature pad mock" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Confirm button is disabled when signature pad is empty" name="contracts - CollabRoom UI Tests Confirm button is disabled when signature pad is empty" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Confirm button enables when signature is drawn mock" name="contracts - CollabRoom UI Tests Confirm button enables when signature is drawn mock" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Confirming signature submits and shows success mock" name="contracts - CollabRoom UI Tests Confirming signature submits and shows success mock" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Signed contract shows signature of both parties" name="contracts - CollabRoom UI Tests Signed contract shows signature of both parties" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Download contract button renders on signed contract" name="contracts - CollabRoom UI Tests Download contract button renders on signed contract" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Download triggers file save mock" name="contracts - CollabRoom UI Tests Download triggers file save mock" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Expired contract shows expired status banner" name="contracts - CollabRoom UI Tests Expired contract shows expired status banner" time="0.001">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Expired contract sign button is disabled" name="contracts - CollabRoom UI Tests Expired contract sign button is disabled" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Contract search by title filters results mock" name="contracts - CollabRoom UI Tests Contract search by title filters results mock" time="0">
+    </testcase>
+    <testcase classname="contracts - CollabRoom UI Tests Breadcrumb shows correct path on detail page" name="contracts - CollabRoom UI Tests Breadcrumb shows correct path on detail page" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="admin - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.115" tests="35">
+    <testcase classname="admin - CollabRoom UI Tests Admin portal renders for user with admin role mock" name="admin - CollabRoom UI Tests Admin portal renders for user with admin role mock" time="0.025">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Admin portal redirects non-admin user to dashboard mock" name="admin - CollabRoom UI Tests Admin portal redirects non-admin user to dashboard mock" time="0.002">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Users management tab renders" name="admin - CollabRoom UI Tests Users management tab renders" time="0.002">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User table renders with all columns" name="admin - CollabRoom UI Tests User table renders with all columns" time="0.002">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User table shows name column" name="admin - CollabRoom UI Tests User table shows name column" time="0.002">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User table shows email column" name="admin - CollabRoom UI Tests User table shows email column" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User table shows role column" name="admin - CollabRoom UI Tests User table shows role column" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User table shows status column" name="admin - CollabRoom UI Tests User table shows status column" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User search by name filters results mock" name="admin - CollabRoom UI Tests User search by name filters results mock" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests User search by email filters results mock" name="admin - CollabRoom UI Tests User search by email filters results mock" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Active user row shows green status indicator" name="admin - CollabRoom UI Tests Active user row shows green status indicator" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Banned user row shows red status indicator" name="admin - CollabRoom UI Tests Banned user row shows red status indicator" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Ban user button renders on active user row" name="admin - CollabRoom UI Tests Ban user button renders on active user row" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Ban user confirmation modal opens on button click" name="admin - CollabRoom UI Tests Ban user confirmation modal opens on button click" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Confirm ban updates user status to banned mock" name="admin - CollabRoom UI Tests Confirm ban updates user status to banned mock" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Cancel ban closes modal with no change" name="admin - CollabRoom UI Tests Cancel ban closes modal with no change" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Unban button renders on banned user row" name="admin - CollabRoom UI Tests Unban button renders on banned user row" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Unban action restores user to active mock" name="admin - CollabRoom UI Tests Unban action restores user to active mock" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Campaigns moderation tab renders" name="admin - CollabRoom UI Tests Campaigns moderation tab renders" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Flagged campaign list renders" name="admin - CollabRoom UI Tests Flagged campaign list renders" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Flag campaign button renders on campaign row" name="admin - CollabRoom UI Tests Flag campaign button renders on campaign row" time="0.002">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Flag campaign modal opens with reason text field" name="admin - CollabRoom UI Tests Flag campaign modal opens with reason text field" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Submit flag action sends report mock" name="admin - CollabRoom UI Tests Submit flag action sends report mock" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Disputes management tab renders" name="admin - CollabRoom UI Tests Disputes management tab renders" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Open disputes list renders" name="admin - CollabRoom UI Tests Open disputes list renders" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Dispute item shows both party names" name="admin - CollabRoom UI Tests Dispute item shows both party names" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Dispute item shows description text" name="admin - CollabRoom UI Tests Dispute item shows description text" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Resolve dispute button renders" name="admin - CollabRoom UI Tests Resolve dispute button renders" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Resolve dispute modal opens" name="admin - CollabRoom UI Tests Resolve dispute modal opens" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Resolve in favour of creator submits mock" name="admin - CollabRoom UI Tests Resolve in favour of creator submits mock" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Resolve in favour of brand submits mock" name="admin - CollabRoom UI Tests Resolve in favour of brand submits mock" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Resolved dispute shows closed status mock" name="admin - CollabRoom UI Tests Resolved dispute shows closed status mock" time="0.001">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Announcements tab renders" name="admin - CollabRoom UI Tests Announcements tab renders" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Create announcement form renders with title and body fields" name="admin - CollabRoom UI Tests Create announcement form renders with title and body fields" time="0">
+    </testcase>
+    <testcase classname="admin - CollabRoom UI Tests Publish announcement submits and appears in list mock" name="admin - CollabRoom UI Tests Publish announcement submits and appears in list mock" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="discovery - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.121" tests="35">
+    <testcase classname="discovery - CollabRoom UI Tests Discover creators page renders correctly" name="discovery - CollabRoom UI Tests Discover creators page renders correctly" time="0.029">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Creator cards render in grid layout" name="discovery - CollabRoom UI Tests Creator cards render in grid layout" time="0.002">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Creator card displays name correctly" name="discovery - CollabRoom UI Tests Creator card displays name correctly" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Creator card displays bio excerpt correctly" name="discovery - CollabRoom UI Tests Creator card displays bio excerpt correctly" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Creator card displays category tag correctly" name="discovery - CollabRoom UI Tests Creator card displays category tag correctly" time="0.002">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Creator card displays profile avatar" name="discovery - CollabRoom UI Tests Creator card displays profile avatar" time="0.002">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Search bar renders on discover creators page" name="discovery - CollabRoom UI Tests Search bar renders on discover creators page" time="0.002">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Search input field accepts typed text" name="discovery - CollabRoom UI Tests Search input field accepts typed text" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Search triggers results update on enter key mock" name="discovery - CollabRoom UI Tests Search triggers results update on enter key mock" time="0.002">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Search results display matching creators mock" name="discovery - CollabRoom UI Tests Search results display matching creators mock" time="0.002">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Search shows no results state when empty mock" name="discovery - CollabRoom UI Tests Search shows no results state when empty mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter drawer opens on filter button click" name="discovery - CollabRoom UI Tests Filter drawer opens on filter button click" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter by category option renders" name="discovery - CollabRoom UI Tests Filter by category option renders" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter by category applies and updates results mock" name="discovery - CollabRoom UI Tests Filter by category applies and updates results mock" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter by location option renders" name="discovery - CollabRoom UI Tests Filter by location option renders" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter by location applies and updates results mock" name="discovery - CollabRoom UI Tests Filter by location applies and updates results mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter by rating option renders" name="discovery - CollabRoom UI Tests Filter by rating option renders" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Filter by rating applies and updates results mock" name="discovery - CollabRoom UI Tests Filter by rating applies and updates results mock" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Multiple filters combine and apply together mock" name="discovery - CollabRoom UI Tests Multiple filters combine and apply together mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Clear filters button resets to all results mock" name="discovery - CollabRoom UI Tests Clear filters button resets to all results mock" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Pagination renders next page button" name="discovery - CollabRoom UI Tests Pagination renders next page button" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Pagination next page loads additional creators mock" name="discovery - CollabRoom UI Tests Pagination next page loads additional creators mock" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Pagination previous page button renders on page 2" name="discovery - CollabRoom UI Tests Pagination previous page button renders on page 2" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Creator card click navigates to creator profile mock" name="discovery - CollabRoom UI Tests Creator card click navigates to creator profile mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Discover brands page renders correctly" name="discovery - CollabRoom UI Tests Discover brands page renders correctly" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Brand cards render in grid layout" name="discovery - CollabRoom UI Tests Brand cards render in grid layout" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Brand card displays company name correctly" name="discovery - CollabRoom UI Tests Brand card displays company name correctly" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Brand card displays industry correctly" name="discovery - CollabRoom UI Tests Brand card displays industry correctly" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Brand card displays active campaigns count" name="discovery - CollabRoom UI Tests Brand card displays active campaigns count" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Brand filter by industry applies mock" name="discovery - CollabRoom UI Tests Brand filter by industry applies mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Brand filter by budget range applies mock" name="discovery - CollabRoom UI Tests Brand filter by budget range applies mock" time="0.001">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Sort by newest updates order mock" name="discovery - CollabRoom UI Tests Sort by newest updates order mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Sort by rating updates order mock" name="discovery - CollabRoom UI Tests Sort by rating updates order mock" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Featured creators section renders on page" name="discovery - CollabRoom UI Tests Featured creators section renders on page" time="0">
+    </testcase>
+    <testcase classname="discovery - CollabRoom UI Tests Total results count displays correctly" name="discovery - CollabRoom UI Tests Total results count displays correctly" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="auth - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.121" tests="46">
+    <testcase classname="auth - CollabRoom UI Tests Login page renders correctly" name="auth - CollabRoom UI Tests Login page renders correctly" time="0.024">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login email field accepts input" name="auth - CollabRoom UI Tests Login email field accepts input" time="0.003">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login password field accepts input" name="auth - CollabRoom UI Tests Login password field accepts input" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login email shows required error when empty on submit" name="auth - CollabRoom UI Tests Login email shows required error when empty on submit" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login password shows required error when empty on submit" name="auth - CollabRoom UI Tests Login password shows required error when empty on submit" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login shows invalid email format error" name="auth - CollabRoom UI Tests Login shows invalid email format error" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login shows wrong credentials error from mock API" name="auth - CollabRoom UI Tests Login shows wrong credentials error from mock API" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login button is disabled during loading state mock" name="auth - CollabRoom UI Tests Login button is disabled during loading state mock" time="0.002">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login shows loading spinner during API call mock" name="auth - CollabRoom UI Tests Login shows loading spinner during API call mock" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login redirects to dashboard on success mock" name="auth - CollabRoom UI Tests Login redirects to dashboard on success mock" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login remember me checkbox renders" name="auth - CollabRoom UI Tests Login remember me checkbox renders" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login remember me stores mock token in localStorage" name="auth - CollabRoom UI Tests Login remember me stores mock token in localStorage" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login show password toggle reveals password text" name="auth - CollabRoom UI Tests Login show password toggle reveals password text" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login hide password toggle conceals password text" name="auth - CollabRoom UI Tests Login hide password toggle conceals password text" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login page has link to register page" name="auth - CollabRoom UI Tests Login page has link to register page" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Login page has link to forgot password page" name="auth - CollabRoom UI Tests Login page has link to forgot password page" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 renders email and password fields" name="auth - CollabRoom UI Tests Register step 1 renders email and password fields" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 email validates required" name="auth - CollabRoom UI Tests Register step 1 email validates required" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 password validates minimum 8 characters" name="auth - CollabRoom UI Tests Register step 1 password validates minimum 8 characters" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 password validates uppercase required" name="auth - CollabRoom UI Tests Register step 1 password validates uppercase required" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 password validates number required" name="auth - CollabRoom UI Tests Register step 1 password validates number required" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 password validates special character required" name="auth - CollabRoom UI Tests Register step 1 password validates special character required" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 confirm password must match password" name="auth - CollabRoom UI Tests Register step 1 confirm password must match password" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 1 next button disabled until fields valid" name="auth - CollabRoom UI Tests Register step 1 next button disabled until fields valid" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 2 renders name and role selection" name="auth - CollabRoom UI Tests Register step 2 renders name and role selection" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 2 brand role option selectable" name="auth - CollabRoom UI Tests Register step 2 brand role option selectable" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 2 creator role option selectable" name="auth - CollabRoom UI Tests Register step 2 creator role option selectable" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 2 role selection is required" name="auth - CollabRoom UI Tests Register step 2 role selection is required" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 2 next button disabled until name and role filled" name="auth - CollabRoom UI Tests Register step 2 next button disabled until name and role filled" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 3 renders profile details for brand" name="auth - CollabRoom UI Tests Register step 3 renders profile details for brand" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 3 renders profile details for creator" name="auth - CollabRoom UI Tests Register step 3 renders profile details for creator" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register step 3 submit shows loading state mock" name="auth - CollabRoom UI Tests Register step 3 submit shows loading state mock" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register success shows confirmation message mock" name="auth - CollabRoom UI Tests Register success shows confirmation message mock" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Register duplicate email shows error mock" name="auth - CollabRoom UI Tests Register duplicate email shows error mock" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Forgot password page renders email field" name="auth - CollabRoom UI Tests Forgot password page renders email field" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Forgot password email validates required" name="auth - CollabRoom UI Tests Forgot password email validates required" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Forgot password email validates format" name="auth - CollabRoom UI Tests Forgot password email validates format" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Forgot password submit success shows check email message mock" name="auth - CollabRoom UI Tests Forgot password submit success shows check email message mock" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Forgot password unknown email shows generic success mock" name="auth - CollabRoom UI Tests Forgot password unknown email shows generic success mock" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Reset password page renders new and confirm password fields" name="auth - CollabRoom UI Tests Reset password page renders new and confirm password fields" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Reset password validates password strength" name="auth - CollabRoom UI Tests Reset password validates password strength" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Reset password mismatch shows error message" name="auth - CollabRoom UI Tests Reset password mismatch shows error message" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Reset password success redirects to login mock" name="auth - CollabRoom UI Tests Reset password success redirects to login mock" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Onboarding step 1 renders welcome screen" name="auth - CollabRoom UI Tests Onboarding step 1 renders welcome screen" time="0">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Onboarding skip button redirects to dashboard mock" name="auth - CollabRoom UI Tests Onboarding skip button redirects to dashboard mock" time="0.001">
+    </testcase>
+    <testcase classname="auth - CollabRoom UI Tests Protected route without token redirects to login mock" name="auth - CollabRoom UI Tests Protected route without token redirects to login mock" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="campaigns - CollabRoom UI Tests" errors="0" failures="0" skipped="0" timestamp="2026-06-23T05:31:33" time="3.124" tests="51">
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign list page renders correctly" name="campaigns - CollabRoom UI Tests Campaign list page renders correctly" time="0.023">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign cards display in list" name="campaigns - CollabRoom UI Tests Campaign cards display in list" time="0.002">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign card shows campaign title" name="campaigns - CollabRoom UI Tests Campaign card shows campaign title" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign card shows brand name" name="campaigns - CollabRoom UI Tests Campaign card shows brand name" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign card shows status badge" name="campaigns - CollabRoom UI Tests Campaign card shows status badge" time="0.002">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Filter tab ALL shows all campaigns mock" name="campaigns - CollabRoom UI Tests Filter tab ALL shows all campaigns mock" time="0.003">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Filter tab ACTIVE shows only active campaigns mock" name="campaigns - CollabRoom UI Tests Filter tab ACTIVE shows only active campaigns mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Filter tab DRAFT shows only draft campaigns mock" name="campaigns - CollabRoom UI Tests Filter tab DRAFT shows only draft campaigns mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Filter tab COMPLETED shows only completed campaigns mock" name="campaigns - CollabRoom UI Tests Filter tab COMPLETED shows only completed campaigns mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Sort by deadline updates campaign order mock" name="campaigns - CollabRoom UI Tests Sort by deadline updates campaign order mock" time="0.002">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Sort by budget updates campaign order mock" name="campaigns - CollabRoom UI Tests Sort by budget updates campaign order mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Empty state renders when no campaigns exist" name="campaigns - CollabRoom UI Tests Empty state renders when no campaigns exist" time="0.002">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Create campaign button renders" name="campaigns - CollabRoom UI Tests Create campaign button renders" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign creation form step 1 renders" name="campaigns - CollabRoom UI Tests Campaign creation form step 1 renders" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign title field validates required" name="campaigns - CollabRoom UI Tests Campaign title field validates required" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign description validates minimum 50 characters" name="campaigns - CollabRoom UI Tests Campaign description validates minimum 50 characters" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign budget field validates numeric only" name="campaigns - CollabRoom UI Tests Campaign budget field validates numeric only" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign budget validates minimum value" name="campaigns - CollabRoom UI Tests Campaign budget validates minimum value" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign category select renders all options" name="campaigns - CollabRoom UI Tests Campaign category select renders all options" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign deadline date picker renders" name="campaigns - CollabRoom UI Tests Campaign deadline date picker renders" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Campaign deadline rejects past dates" name="campaigns - CollabRoom UI Tests Campaign deadline rejects past dates" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 1 next button is disabled until all fields valid" name="campaigns - CollabRoom UI Tests Step 1 next button is disabled until all fields valid" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 2 renders after step 1 completes" name="campaigns - CollabRoom UI Tests Step 2 renders after step 1 completes" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 2 shows media upload drop zone" name="campaigns - CollabRoom UI Tests Step 2 shows media upload drop zone" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests File drop zone responds to dragover event" name="campaigns - CollabRoom UI Tests File drop zone responds to dragover event" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests File input accepts only image and video types mock" name="campaigns - CollabRoom UI Tests File input accepts only image and video types mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Uploaded file preview renders after selection mock" name="campaigns - CollabRoom UI Tests Uploaded file preview renders after selection mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 2 next disabled until at least one file added" name="campaigns - CollabRoom UI Tests Step 2 next disabled until at least one file added" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 3 review screen shows title from step 1" name="campaigns - CollabRoom UI Tests Step 3 review screen shows title from step 1" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 3 review screen shows budget from step 1" name="campaigns - CollabRoom UI Tests Step 3 review screen shows budget from step 1" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 3 review screen shows uploaded media from step 2" name="campaigns - CollabRoom UI Tests Step 3 review screen shows uploaded media from step 2" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Step 3 edit button returns to step 1" name="campaigns - CollabRoom UI Tests Step 3 edit button returns to step 1" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Submit button shows loading state on click mock" name="campaigns - CollabRoom UI Tests Submit button shows loading state on click mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Successful campaign creation shows confirmation mock" name="campaigns - CollabRoom UI Tests Successful campaign creation shows confirmation mock" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Collab Room page renders with campaign title" name="campaigns - CollabRoom UI Tests Collab Room page renders with campaign title" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Collab Room brief tab is default active tab" name="campaigns - CollabRoom UI Tests Collab Room brief tab is default active tab" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Collab Room tasks tab renders on click" name="campaigns - CollabRoom UI Tests Collab Room tasks tab renders on click" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Collab Room files tab renders on click" name="campaigns - CollabRoom UI Tests Collab Room files tab renders on click" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Collab Room chat tab renders on click" name="campaigns - CollabRoom UI Tests Collab Room chat tab renders on click" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Task list renders existing tasks from mock" name="campaigns - CollabRoom UI Tests Task list renders existing tasks from mock" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Add task input field renders in tasks tab" name="campaigns - CollabRoom UI Tests Add task input field renders in tasks tab" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Add task submits and appends on enter key mock" name="campaigns - CollabRoom UI Tests Add task submits and appends on enter key mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Task checkbox marks task complete mock" name="campaigns - CollabRoom UI Tests Task checkbox marks task complete mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Delete task button removes task from list mock" name="campaigns - CollabRoom UI Tests Delete task button removes task from list mock" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests File list renders in files tab from mock" name="campaigns - CollabRoom UI Tests File list renders in files tab from mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Upload file button renders in files tab" name="campaigns - CollabRoom UI Tests Upload file button renders in files tab" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Status update dropdown renders current status" name="campaigns - CollabRoom UI Tests Status update dropdown renders current status" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Status change triggers confirmation dialog mock" name="campaigns - CollabRoom UI Tests Status change triggers confirmation dialog mock" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Member list renders in collab room mock" name="campaigns - CollabRoom UI Tests Member list renders in collab room mock" time="0.001">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Invite member button renders in collab room" name="campaigns - CollabRoom UI Tests Invite member button renders in collab room" time="0">
+    </testcase>
+    <testcase classname="campaigns - CollabRoom UI Tests Invite member modal opens and submits email mock" name="campaigns - CollabRoom UI Tests Invite member modal opens and submits email mock" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

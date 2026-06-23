@@ -29,9 +29,20 @@ jobs:
           sudo apt-get install -y google-chrome-stable
           google-chrome --version
 
-      - name: Install dependencies
+      - name: Install dependencies (root & web)
+        run: |
+          npm install
+          npm run setup
+
+      - name: Install dependencies (selenium)
         run: npm ci
         working-directory: collabroom-tests/selenium
+
+      - name: Start web app in background
+        run: |
+          npm run dev &
+          # Wait for the app to be available on port 8081
+          npx wait-on http://localhost:8081 --timeout 60000
 
       - name: Run Selenium tests (headless)
         env:

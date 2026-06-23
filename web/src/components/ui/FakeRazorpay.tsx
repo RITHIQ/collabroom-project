@@ -89,40 +89,27 @@ export default function FakeRazorpay({ amount, onSuccess, onClose }: FakeRazorpa
 
               <div style={{ display: 'flex', gap: 12, flexDirection: 'column' }}>
                 <p style={{ fontSize: '0.75rem', color: '#666', textAlign: 'center', marginBottom: 4 }}>
-                  This is a mock payment gateway. No real money will be deducted.
+                  By proceeding, you agree to our terms of service and secure payment policy.
                 </p>
                 {loading ? (
                   <button disabled style={{ width: '100%', padding: 14, background: '#2B86E8', color: '#fff', border: 'none', borderRadius: 4, fontWeight: 700, fontSize: '0.95rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                    <Loader className="spin" size={18} /> Processing...
+                    <Loader className="spin" size={18} /> Processing securely...
                   </button>
                 ) : (
-                  <>
-                    <button 
-                      onClick={() => {
-                        setLoading(true);
+                  <button 
+                    onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => {
+                        setLoading(false);
+                        setSuccess(true);
                         setTimeout(() => {
-                          setLoading(false);
-                          setSuccess(true);
-                          setTimeout(() => {
-                            onSuccess(`pay_mock_${Date.now()}`);
-                          }, 1500);
-                        }, 1000);
-                      }}
-                      style={{ width: '100%', padding: 14, background: '#10B981', color: '#fff', border: 'none', borderRadius: 4, fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      Simulate Success
-                    </button>
-                    <button 
-                      onClick={() => {
-                        setLoading(true);
-                        setTimeout(() => {
-                          setLoading(false);
-                          alert('Payment Failed!');
-                        }, 1000);
-                      }}
-                      style={{ width: '100%', padding: 14, background: 'transparent', color: '#E11D48', border: '1px solid #E11D48', borderRadius: 4, fontWeight: 600, fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      Simulate Failure
-                    </button>
-                  </>
+                          onSuccess(`pay_${Math.random().toString(36).substr(2, 9)}`);
+                        }, 1500);
+                      }, 1800); // 1.8 seconds processing time looks realistic
+                    }}
+                    style={{ width: '100%', padding: 14, background: '#10B981', color: '#fff', border: 'none', borderRadius: 4, fontWeight: 700, fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    Pay ₹{amount.toLocaleString('en-IN')} Securely
+                  </button>
                 )}
               </div>
             </div>

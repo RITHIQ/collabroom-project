@@ -80,8 +80,7 @@ export default function CampaignCreate() {
         niche: selectedNiche,
         deliverables,
         brand_name: form.brandName.trim(),
-        visibility: form.visibility,
-        payment_reference: paymentId,
+        visibility: form.visibility
       });
       toast.success('Campaign funded and created successfully!');
       navigate(`/campaigns/${created.id}`);

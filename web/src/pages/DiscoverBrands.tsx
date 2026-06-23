@@ -12,6 +12,8 @@ export default function DiscoverBrands() {
   const [search, setSearch] = useState('');
   const [saved, setSaved] = useState<string[]>([]);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [applyState, setApplyState] = useState<'idle' | 'pitch' | 'submitting' | 'success'>('idle');
+  const [pitchText, setPitchText] = useState('');
 
   useEffect(() => {
     campaignsAPI.list().then(r => { 
@@ -92,7 +94,7 @@ export default function DiscoverBrands() {
 
               <div style={{ display: 'flex', gap: 8 }}>
                 <button className="btn btn-secondary btn-sm" style={{ flex: 1, justifyContent: 'center' }} onClick={() => setSelectedCampaign(c)}>View Details</button>
-                <button className="btn btn-primary btn-sm" style={{ flex: 2, justifyContent: 'center' }} onClick={() => toast.success('Application submitted! Brand will review soon.')}>
+                <button className="btn btn-primary btn-sm" style={{ flex: 2, justifyContent: 'center' }} onClick={() => { setSelectedCampaign(c); setApplyState('pitch'); }}>
                   Quick Apply <ArrowRight size={13} />
                 </button>
               </div>
@@ -135,68 +137,133 @@ export default function DiscoverBrands() {
 
               {/* Modal Body */}
               <div style={{ padding: '32px' }}>
-                <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16 }}>{selectedCampaign.title}</h3>
-                
-                <div style={{ background: 'var(--color-bg-secondary)', padding: '20px', borderRadius: 12, marginBottom: 24, fontSize: '0.95rem', lineHeight: 1.6, color: 'var(--color-text-secondary)' }}>
-                  {selectedCampaign.description}
-                </div>
+                {applyState === 'idle' && (
+                  <>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16 }}>{selectedCampaign.title}</h3>
+                    
+                    <div style={{ background: 'var(--color-bg-secondary)', padding: '20px', borderRadius: 12, marginBottom: 24, fontSize: '0.95rem', lineHeight: 1.6, color: 'var(--color-text-secondary)' }}>
+                      {selectedCampaign.description}
+                    </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
-                  <div style={{ padding: 16, border: '1px solid var(--color-border)', borderRadius: 12 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-text-muted)', marginBottom: 8, fontSize: '0.85rem' }}>
-                      <DollarSign size={16} /> Budget
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
+                      <div style={{ padding: 16, border: '1px solid var(--color-border)', borderRadius: 12 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-text-muted)', marginBottom: 8, fontSize: '0.85rem' }}>
+                          <DollarSign size={16} /> Budget
+                        </div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>₹{selectedCampaign.budget.toLocaleString('en-IN')}</div>
+                      </div>
+                      <div style={{ padding: 16, border: '1px solid var(--color-border)', borderRadius: 12 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-text-muted)', marginBottom: 8, fontSize: '0.85rem' }}>
+                          <Calendar size={16} /> Deadline
+                        </div>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>
+                          {new Date(selectedCampaign.endDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </div>
+                      </div>
+                      <div style={{ padding: 16, border: '1px solid var(--color-border)', borderRadius: 12 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-text-muted)', marginBottom: 8, fontSize: '0.85rem' }}>
+                          <Users size={16} /> Available Slots
+                        </div>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>
+                          {selectedCampaign.slotsTotal - selectedCampaign.slotsFilled} of {selectedCampaign.slotsTotal}
+                        </div>
+                      </div>
                     </div>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>₹{selectedCampaign.budget.toLocaleString('en-IN')}</div>
-                  </div>
-                  <div style={{ padding: 16, border: '1px solid var(--color-border)', borderRadius: 12 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-text-muted)', marginBottom: 8, fontSize: '0.85rem' }}>
-                      <Calendar size={16} /> Deadline
-                    </div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>
-                      {new Date(selectedCampaign.endDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </div>
-                  </div>
-                  <div style={{ padding: 16, border: '1px solid var(--color-border)', borderRadius: 12 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-text-muted)', marginBottom: 8, fontSize: '0.85rem' }}>
-                      <Users size={16} /> Available Slots
-                    </div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>
-                      {selectedCampaign.slotsTotal - selectedCampaign.slotsFilled} of {selectedCampaign.slotsTotal}
-                    </div>
-                  </div>
-                </div>
 
-                <div style={{ marginBottom: 24 }}>
-                  <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '1.1rem', fontWeight: 700, marginBottom: 16 }}>
-                    <Target size={18} color="var(--color-primary)" /> Required Deliverables
-                  </h4>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    {selectedCampaign.deliverables.map((del, i) => (
-                      <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: '0.95rem', color: 'var(--color-text-secondary)' }}>
-                        <div style={{ marginTop: 4, width: 6, height: 6, borderRadius: '50%', background: 'var(--color-primary)', flexShrink: 0 }} />
-                        {del}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                    <div style={{ marginBottom: 24 }}>
+                      <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '1.1rem', fontWeight: 700, marginBottom: 16 }}>
+                        <Target size={18} color="var(--color-primary)" /> Required Deliverables
+                      </h4>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                        {selectedCampaign.deliverables.map((del, i) => (
+                          <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: '0.95rem', color: 'var(--color-text-secondary)' }}>
+                            <div style={{ marginTop: 4, width: 6, height: 6, borderRadius: '50%', background: 'var(--color-primary)', flexShrink: 0 }} />
+                            {del}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                <div style={{ marginBottom: 32 }}>
-                  <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '1.1rem', fontWeight: 700, marginBottom: 16 }}>
-                    <LayoutGrid size={18} color="var(--color-primary)" /> Platforms & Formats
-                  </h4>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                    {selectedCampaign.platforms.map(p => <span key={p} className="badge badge-primary" style={{ padding: '6px 12px', fontSize: '0.85rem', textTransform: 'capitalize' }}>{p}</span>)}
-                    {selectedCampaign.contentFormats.map(f => <span key={f} className="badge badge-secondary" style={{ padding: '6px 12px', fontSize: '0.85rem', textTransform: 'capitalize' }}>{f}</span>)}
-                  </div>
-                </div>
+                    <div style={{ marginBottom: 32 }}>
+                      <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '1.1rem', fontWeight: 700, marginBottom: 16 }}>
+                        <LayoutGrid size={18} color="var(--color-primary)" /> Platforms & Formats
+                      </h4>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                        {selectedCampaign.platforms.map(p => <span key={p} className="badge badge-primary" style={{ padding: '6px 12px', fontSize: '0.85rem', textTransform: 'capitalize' }}>{p}</span>)}
+                        {selectedCampaign.contentFormats.map(f => <span key={f} className="badge badge-secondary" style={{ padding: '6px 12px', fontSize: '0.85rem', textTransform: 'capitalize' }}>{f}</span>)}
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {(applyState === 'pitch' || applyState === 'submitting') && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 12 }}>Apply for Collaboration</h3>
+                    <p style={{ color: 'var(--color-text-secondary)', marginBottom: 24, fontSize: '0.95rem' }}>
+                      Tell {selectedCampaign.brandName} why you're a great fit for the <b>{selectedCampaign.title}</b> campaign.
+                    </p>
+                    
+                    <label className="label">Your Pitch</label>
+                    <textarea 
+                      className="input" 
+                      rows={6} 
+                      placeholder="Hi! I love your brand and my audience aligns perfectly with this product..." 
+                      value={pitchText}
+                      onChange={e => setPitchText(e.target.value)}
+                      style={{ resize: 'vertical', fontSize: '0.95rem' }}
+                      disabled={applyState === 'submitting'}
+                    />
+                  </motion.div>
+                )}
+
+                {applyState === 'success' && (
+                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={{ padding: '40px 0', textAlign: 'center' }}>
+                    <div style={{ width: 80, height: 80, borderRadius: '50%', background: '#10B981', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', color: '#fff' }}>
+                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 12 }}>Application Sent!</h2>
+                    <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', maxWidth: 400, margin: '0 auto' }}>
+                      Your pitch has been successfully delivered to <b>{selectedCampaign.brandName}</b>. They will review your profile and get back to you soon.
+                    </p>
+                  </motion.div>
+                )}
               </div>
 
               {/* Modal Footer */}
               <div style={{ padding: '24px 32px', borderTop: '1px solid var(--color-border)', background: 'var(--color-bg-secondary)', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-                <button className="btn btn-secondary" onClick={() => setSelectedCampaign(null)}>Close</button>
-                <button className="btn btn-primary" onClick={() => { setSelectedCampaign(null); toast.success('Application submitted! Brand will review soon.'); }}>
-                  Submit Application <ArrowRight size={16} style={{ marginLeft: 4 }} />
-                </button>
+                {applyState === 'idle' && (
+                  <>
+                    <button className="btn btn-secondary" onClick={() => setSelectedCampaign(null)}>Close</button>
+                    <button className="btn btn-primary" onClick={() => setApplyState('pitch')}>
+                      Apply Now <ArrowRight size={16} style={{ marginLeft: 4 }} />
+                    </button>
+                  </>
+                )}
+
+                {(applyState === 'pitch' || applyState === 'submitting') && (
+                  <>
+                    <button className="btn btn-secondary" onClick={() => setApplyState('idle')} disabled={applyState === 'submitting'}>Back</button>
+                    <button 
+                      className="btn btn-primary" 
+                      disabled={applyState === 'submitting' || pitchText.trim().length < 10}
+                      onClick={() => {
+                        setApplyState('submitting');
+                        setTimeout(() => {
+                          setApplyState('success');
+                          toast.success('Application successfully submitted!');
+                        }, 1500);
+                      }}
+                    >
+                      {applyState === 'submitting' ? 'Sending...' : 'Send Application'}
+                    </button>
+                  </>
+                )}
+
+                {applyState === 'success' && (
+                  <button className="btn btn-primary" onClick={() => { setSelectedCampaign(null); setTimeout(() => { setApplyState('idle'); setPitchText(''); }, 300); }}>
+                    Done
+                  </button>
+                )}
               </div>
 
             </motion.div>

@@ -1,5 +1,5 @@
-# c:\Users\then9\Downloads\PROJECT PDD\.github\workflows\01-selenium-web-ui-tests.yml
-name: "🌐 Selenium Web UI Tests — CollabRoom"
+# .github/workflows/01-selenium-web-ui-tests.yml
+name: "Selenium Web UI Tests - CollabRoom"
 
 on:
   push:
@@ -11,30 +11,37 @@ jobs:
   selenium-web-ui:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
       - name: Install dependencies
-        run: |
-          cd selenium-tests
-          npm ci
+        run: npm ci
+        working-directory: selenium-tests
 
-      - name: Install chromedriver matching installed Chrome version
+      - name: Install chromedriver matching Chrome version
         run: |
-          cd selenium-tests
-          npm install chromedriver --detect_chromedriver_version
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+' | head -1)
+          npx chromedriver --version || true
+          npm install chromedriver@$(echo $CHROME_VERSION | cut -d. -f1)
+        working-directory: selenium-tests
 
-      - name: Run tests
-        run: |
-          cd selenium-tests
-          npx jest --verbose --testPathPattern=selenium-tests
+      - name: Run Selenium tests
+        run: npm test
+        working-directory: selenium-tests
         env:
           CHROME_FLAGS: "--headless --no-sandbox --disable-dev-shm-usage"
 
-      - name: Upload Test Results
+      - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:

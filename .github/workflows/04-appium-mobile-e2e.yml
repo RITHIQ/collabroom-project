@@ -1,4 +1,4 @@
-name: "📱 Appium Mobile E2E Tests — CollabRoom"
+name: "Appium Mobile E2E Tests - CollabRoom"
 on:
   push:
     branches: [ "main" ]

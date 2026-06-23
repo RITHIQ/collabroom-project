@@ -1,4 +1,4 @@
-name: "⚛️ Vitest Web Component Tests — CollabRoom"
+name: "Vitest Web Component Tests - CollabRoom"
 on:
   push:
     branches: [ "main" ]

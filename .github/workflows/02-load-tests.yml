@@ -1,4 +1,5 @@
-name: "⚡ Load Tests — CollabRoom Web & Mobile"
+# .github/workflows/02-load-tests.yml
+name: "Load Tests - CollabRoom Web and Mobile"
 
 on:
   push:
@@ -10,33 +11,55 @@ jobs:
   k6-web-load:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Start Mock Server
-        run: |
-          npm install -g json-server
-          json-server --watch load-tests/mock-server/db.json --port 3001 &
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install json-server
+        run: npm install -g json-server@0.17.4
+
+      - name: Start mock server on port 3001
+        run: json-server --watch load-tests/mock-server/db.json --port 3001 &
+        
+      - name: Wait for mock server to be ready
+        run: sleep 3
 
       - name: Install k6
         run: |
-          sudo gpg -k
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
           sudo apt-get update
-          sudo apt-get install k6=0.50.0
+          sudo apt-get install -y k6
 
-      - name: Run Web Load Tests
-        run: |
-          k6 run load-tests/web/smoke-test.js
-          k6 run load-tests/web/load-test.js
-          k6 run load-tests/web/stress-test.js
-          k6 run load-tests/web/spike-test.js
-          k6 run load-tests/web/soak-test.js
-          k6 run load-tests/web/scenarios/auth.js
-          k6 run load-tests/web/scenarios/campaigns.js
-          k6 run load-tests/web/scenarios/contracts.js
+      - name: Run smoke test
+        run: k6 run --out json=web-load-results.json load-tests/web/smoke-test.js
 
-      - name: Upload Web Load Results
+      - name: Run load test
+        run: k6 run load-tests/web/load-test.js
+
+      - name: Run stress test
+        run: k6 run load-tests/web/stress-test.js
+
+      - name: Run spike test
+        run: k6 run load-tests/web/spike-test.js
+
+      - name: Run soak test
+        run: k6 run load-tests/web/soak-test.js
+
+      - name: Run auth scenarios
+        run: k6 run load-tests/web/scenarios/auth.js
+
+      - name: Run campaigns scenarios
+        run: k6 run load-tests/web/scenarios/campaigns.js
+
+      - name: Run contracts scenarios
+        run: k6 run load-tests/web/scenarios/contracts.js
+
+      - name: Upload web load results
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -46,33 +69,55 @@ jobs:
   k6-mobile-load:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Start Mock Server
-        run: |
-          npm install -g json-server
-          json-server --watch load-tests/mock-server/db.json --port 3002 &
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install json-server
+        run: npm install -g json-server@0.17.4
+
+      - name: Start mock server on port 3002
+        run: json-server --watch load-tests/mock-server/db.json --port 3002 &
+
+      - name: Wait for mock server to be ready
+        run: sleep 3
 
       - name: Install k6
         run: |
-          sudo gpg -k
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
           sudo apt-get update
-          sudo apt-get install k6=0.50.0
+          sudo apt-get install -y k6
 
-      - name: Run Mobile Load Tests
-        run: |
-          k6 run load-tests/mobile/smoke-test.js
-          k6 run load-tests/mobile/load-test.js
-          k6 run load-tests/mobile/stress-test.js
-          k6 run load-tests/mobile/spike-test.js
-          k6 run load-tests/mobile/soak-test.js
-          k6 run load-tests/mobile/scenarios/auth.js
-          k6 run load-tests/mobile/scenarios/sync.js
-          k6 run load-tests/mobile/scenarios/notifications.js
+      - name: Run smoke test
+        run: k6 run --out json=mobile-load-results.json load-tests/mobile/smoke-test.js
 
-      - name: Upload Mobile Load Results
+      - name: Run load test
+        run: k6 run load-tests/mobile/load-test.js
+
+      - name: Run stress test
+        run: k6 run load-tests/mobile/stress-test.js
+
+      - name: Run spike test
+        run: k6 run load-tests/mobile/spike-test.js
+
+      - name: Run soak test
+        run: k6 run load-tests/mobile/soak-test.js
+
+      - name: Run auth scenarios
+        run: k6 run load-tests/mobile/scenarios/auth.js
+
+      - name: Run sync scenarios
+        run: k6 run load-tests/mobile/scenarios/sync.js
+
+      - name: Run notification scenarios
+        run: k6 run load-tests/mobile/scenarios/notifications.js
+
+      - name: Upload mobile load results
         if: always()
         uses: actions/upload-artifact@v4
         with:

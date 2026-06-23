@@ -1,4 +1,4 @@
-name: "📱 Jest Mobile Component Tests — CollabRoom"
+name: "Jest Mobile Component Tests - CollabRoom"
 on:
   push:
     branches: [ "main" ]
